@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@import 'swiper/css';
+
+body {
+    color: #f1f1f1;
+    background-color: #0C1014;
+}
+
+button {
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    display: none;
+    appearance: none;
+    margin: 0;
+}
+
+input {
+    outline: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
