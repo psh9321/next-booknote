@@ -12,10 +12,11 @@ import type { NavigationOptions } from 'swiper/types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface BOOK_NOTE_IMG_SLIDER extends LAYOUT_CHILD {
-    data : string[]
+    data : string[],
+    _id : string
 }
 
-export const BookNoteImgSlider = ({ data, children } : BOOK_NOTE_IMG_SLIDER) => {
+export const BookNoteImgSlider = ({ data, children, _id } : BOOK_NOTE_IMG_SLIDER) => {
 
     const prevRef = useRef<HTMLButtonElement>(null);
     const nextRef = useRef<HTMLButtonElement>(null);
@@ -54,7 +55,7 @@ export const BookNoteImgSlider = ({ data, children } : BOOK_NOTE_IMG_SLIDER) => 
                     return (
                         <SwiperSlide tag="li" key={`${JSON.stringify(img)}-${i}`}>
                             <div className="flex justify-center items-center h-[250px] overflow-hidden">
-                                <Image src={`/dummy/${img}`} alt={`asd ${i}`} width={450} height={550} style={{objectFit : "cover"}} />
+                                <Image src={`${process.env.NEXT_PUBLIC_FILE_DIRECTORY}/${_id}/${img}`} alt={`asd ${i}`} width={450} height={550} style={{objectFit : "cover"}} unoptimized />
                             </div>
                         </SwiperSlide>
                     )

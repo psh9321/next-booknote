@@ -1,17 +1,19 @@
 "use client"
 
-import { useInterSectionObserver } from "@/hook/useInterSectionObserver";
-import { useMyBookQueryHook } from "@/hook/useQuery"
 import Image from "next/image";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+
 import { useEffect } from "react";
 
-interface MY_BOOK_LIST {
-    userId : string
-}
+import { useInterSectionObserver } from "@/hook/useInterSectionObserver";
+import { useMyBookQueryHook } from "@/hook/useQuery"
 
-export const MyBookList = ({ userId } : MY_BOOK_LIST) => {
+export const MyBookList = () => {
 
-    const { data, isFetching, fetchNextPage, hasNextPage } = useMyBookQueryHook(userId);
+    const session = useSession();
+
+    const { data, isFetching, fetchNextPage, hasNextPage } = useMyBookQueryHook(session.data?.user.id);
 
     const { ref, isView } = useInterSectionObserver<HTMLLIElement>({
         threshold : 0
@@ -20,15 +22,17 @@ export const MyBookList = ({ userId } : MY_BOOK_LIST) => {
     const isEmpty = (data?.pages as MY_BOOK_RESPONSE[])[0]?.total <= 0;
 
     useEffect(() => {
-        if(!hasNextPage) return
+        if(!isView) return;
         if(isFetching) return;
         if(isEmpty) return;
+        if(!hasNextPage) return;
 
         fetchNextPage();
-    },[isEmpty, isView, isFetching, fetchNextPage]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[isView]);
 
     return (
-        <ul className="flex flex-wrap gap-[10px] w-full">
+        <ul className="flex flex-wrap gap-[20px]">
             {
                 data?.pages.map(page => {
 
@@ -39,9 +43,9 @@ export const MyBookList = ({ userId } : MY_BOOK_LIST) => {
                     return list.map((el, i) => {
                         return (
                             <li key={`내가등록한도서-${el["bookTitle"]}-${i}`}>
-                                <div className="relative w-[160px] h-[245px] rounded-[10px] overflow-hidden">
+                                <Link href={`/book/${el["bookCode"]}`} className="relative block w-[160px] h-[245px] rounded-[10px] overflow-hidden">
                                     <Image fill sizes="auto" src={el["bookCover"]} alt={`${el["bookTitle"]} 커버 이미지`} loading="eager" className="object-cover"/>
-                                </div>
+                                </Link>
                                   
                             </li>
                         )

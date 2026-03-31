@@ -2,25 +2,33 @@ import "next-auth"
 import "next-auth/jwt"
 
 declare module "next-auth" {
+
+    interface USER extends MY_INFO {
+        type: "naver" | "kakao"
+    }
+
     interface Session {
-        user: {
-            id: string
-            name: string
-            image: string
-            type: "naver" | "kakao"
-            util : MY_UTIL_INFO 
-        }
+        user: USER
         error?: "InvalidToken"
     }
 }
 
 declare module "next-auth/jwt" {
-    interface JWT {
-        id: string
-        nickName: string
-        profileImg: string
+    interface JWT extends MY_INFO {
         type: "naver" | "kakao"
-        utilInfo : MY_UTIL_INFO
+
+        /** 등록한 책 수 */
+        book : number,
+
+        /** 등록한 북노트 수 */
+        booknote : number,
+
+        /** 가입한 북클럽 수 */
+        bookclub : number,
+
+        /** 스크랩한 북노트 수 */
+        scrapnote : number
+
     }
 }
 

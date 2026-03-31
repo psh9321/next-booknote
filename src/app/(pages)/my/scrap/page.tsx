@@ -1,9 +1,9 @@
-import MyBookPageView from "./_view"
+import MyBookNoteScrapPageView from "./_view"
 
-const MyBookPageServer = () => {
+const MyBookNoteScrapServer = () => {
     return (
-        <MyBookPageView/>
+        <MyBookNoteScrapPageView/>
     )
 }
 
-export default MyBookPageServer
+export default MyBookNoteScrapServer

@@ -5,8 +5,8 @@ import { PopularBookClubList } from "@/features/PopularBookClubList"
 export const PopularBookClubBox = () => {
     
     return (
-        <article>
-            <h3 className="inline-block font-[700] text-[1.2rem]">인기 북클럽</h3>
+        <article className="bg-[#2A2F32] rounded-[10px]">
+            <h2 className="sr-only">인기 북클럽 리스트</h2>
             <PopularBookClubList/>
         </article>
     )

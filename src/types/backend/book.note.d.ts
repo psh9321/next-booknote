@@ -39,6 +39,9 @@ declare global {
 
         /** 독서노트 좋아요 수 */
         favorite : number;
+
+        /** 독서노트 스크랩 수 */
+        scrap : number
     }
 }
 

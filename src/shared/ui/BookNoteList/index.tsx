@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import { Heart, Bookmark } from 'lucide-react';
+
 import { GetTimeAgo } from "@/shared/util/getTimeAgo";
 import { BookNoteImgSlider } from "@/shared/ui/BookNoteImgSlider";
 
@@ -49,8 +50,7 @@ export const BookNoteList = ({ data, className } : BOOK_NOTE_LIST) => {
                                         <dd className="ml-[7px] text-[0.8rem]">{GetTimeAgo(el["createDate"])}</dd>
                                     </dl>
                                 </div>
-
-                                <BookNoteImgSlider data={el["contentsImages"]}>
+                                <BookNoteImgSlider data={el["contentsImages"]} _id={el._id}>
                                     <button className="absolute top-[10px] right-[10px] flex justify-center items-center w-[40px] h-[40px] rounded-[100%] overflow-hidden z-2">
                                         <Image src={el["bookCover"]} alt={`${el["bookTitle"]} 커버 이미지`} fill sizes="auto" className="object-cover rounded-[10px]" />
                                     </button>
@@ -61,7 +61,10 @@ export const BookNoteList = ({ data, className } : BOOK_NOTE_LIST) => {
                                         <button className="flex items-center"><Heart/> <span className="ml-[5px] text-[0.9rem]">{el["favorite"]}</span></button>
                                     </li>
                                     <li>
-                                        <button><Bookmark/></button>
+                                        <button>
+                                            <Bookmark/>
+                                            <span className="ml-[5px] text-[0.9rem]">{el["scrap"]}</span>
+                                        </button>
                                     </li>
                                 </ul>
                                 <p className="w-full leading-[1.7] truncate min-w-0">{el["noteContents"]}</p>

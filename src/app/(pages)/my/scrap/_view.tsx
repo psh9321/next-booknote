@@ -1,7 +1,7 @@
-const MyBookPageView = () => {
+const MyBookNoteScrapPageView = () => {
     return (
         <>MyBooknoteScrapView</>
     )
 }
 
-export default MyBookPageView
+export default MyBookNoteScrapPageView

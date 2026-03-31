@@ -4,6 +4,8 @@ import Image from 'next/image';
 
 import { signOut } from 'next-auth/react';
 
+import { User } from 'lucide-react';
+
 import { KakaoLogo, NaverLogo } from '@/svg/SSOLogo';
 
 interface MY_INFO_BOX {
@@ -16,8 +18,11 @@ export const MyProfileBox = ({ name, type, profileImg } : MY_INFO_BOX) => {
 
     return (
         <div className='flex items-center'>
-            <div className='relative w-[60px] h-[60px] bg-[#f0f] rounded-[100%] overflow-hidden'>
-                <Image src={profileImg} alt={`${name} 의 ${type} 프로필 이미지`} fill sizes="auto" loading="eager" />
+            <div className={`relative flex justify-center items-center w-[60px] h-[60px] rounded-[100%] overflow-hidden ${profileImg??"border"}`}>
+                {
+                    profileImg ? <Image src={profileImg} alt={`${name} 의 ${type} 프로필 이미지`} fill sizes="auto" loading="eager" /> : <User size={45}/>
+                }
+                
             </div>
             <dl className='ml-[15px] [&>dd]:inline-block [&>dd]:text-[0.9rem]'>
                 <dt className='flex items-center text-[1.1rem] [&>svg]:mr-[5px]'>

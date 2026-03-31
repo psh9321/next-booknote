@@ -2,21 +2,26 @@
 
 import Link from 'next/link';
 
+import { useSession } from 'next-auth/react';
+
 import { Book, SquareLibrary, NotebookText, BookUser, BookCheck, Bookmark } from 'lucide-react';
 
 import { twMerge } from "tailwind-merge";
 
 interface OPTION_LIST {
-    data : MY_UTIL_INFO,
     className? : string
 }
 
-export const MyOptionList = ({ data, className } : OPTION_LIST) => {
+export const MyOptionList = ({ className } : OPTION_LIST) => {
+
+    const session = useSession();
+
+    const data = session.data?.user;
 
     return (
         <ul className={twMerge(`
             flex flex-wrap gap-y-[25px] w-[350px] mt-[60px] mx-[auto]
-            [&>li]:w-[33.33%]
+            [&>li]:w-[25%]
             [&>li]:text-center
             [&>li>a]:relative
             [&>li>a]:inline-flex
@@ -36,45 +41,51 @@ export const MyOptionList = ({ data, className } : OPTION_LIST) => {
             [&>li>a>span]:rounded-[100%]
         `, className??"")}>
             <li>
-                <Link href={"/my/book"}>
+                <Link href={"/my"}>
                 {
                     (data && data.book > 0) && <span>{data.book}</span>
                 }
                     <Book/>책
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link href={""}>
                     <span>4</span>
                     <BookCheck/>완독도서
                 </Link>
-            </li>
+            </li> */}
             <li>
-                <Link href={""}>
-                    <span>5</span>
-                    <BookUser/>북클럽
-                </Link>
-            </li>
-            <li>
-                <Link href={""}>
-                    <span>4</span>
+                <Link href={"/my/booknote"}>
+                    {
+                        (data && data.booknote > 0) && <span>{data.booknote}</span>
+                    }
                     <NotebookText/>독서노트
                 </Link>
             </li>
             <li>
-                <Link href={"/"}>
-                    <span>4</span>
+                <Link href={"/my/scrap"}>
+                    {
+                        (data && data.scrapnote > 0) && <span>{data.scrapnote}</span>
+                    }
                     <Bookmark/>
                     스크랩
                 </Link>
             </li>
             <li>
+                <Link href={"/my/bookclub"}>
+                    {
+                        (data && data.bookclub > 0) && <span>{data.bookclub}</span>
+                    }
+                    <BookUser/>북클럽
+                </Link>
+            </li>
+            {/* <li>
                 <Link href={"/"}>
                     <span>4</span>
                     <SquareLibrary/>
                     컬렉션
                 </Link>
-            </li>
+            </li> */}
         </ul>
     )
 }

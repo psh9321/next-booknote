@@ -6,7 +6,7 @@ import { API_GET_MY_BOOK_LIST } from "@/entities/my/api/api.my.book";
 
 import { auth } from "@/auth";
 
-const MyPageServer = async () => {
+const MyBookPageServer = async () => {
 
     const queryServer = new QueryClient();
 
@@ -46,4 +46,4 @@ const MyPageServer = async () => {
     )
 }
 
-export default MyPageServer
+export default MyBookPageServer

@@ -25,7 +25,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return {
           id : `${r.id}-naver`,
           nickName: r.nickname,
-          profileImg: r.profile_image,
           type : "naver"
 
         } as any;
@@ -41,7 +40,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return {
           id : `${String(profile.id)}-kakao`,
           nickName : kakaoProfile?.nickname,
-          profileImg : kakaoProfile?.profile_image_url,
           type : "kakao"
         } as any
       }
@@ -64,25 +62,37 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         
       // 최초 로그인 시에만 user가 존재함
       if (user) {
-          token.id = account?.providerAccountId ?? (user as any).id;
-          token.nickName = (user as any).nickName;
-          token.profileImg = (user as any).profileImg;
           token.type = (user as any).type;
 
-          const utilInfo = await API_MY_UTIL_INFO(token.id);
+          const userInfo : MY_INFO | null = await API_MY_UTIL_INFO({
+            userId : account?.providerAccountId ?? (user as any).id,
+            userName : (user as any).nickName
+          });
 
-          if(utilInfo) token.utilInfo = utilInfo as MY_UTIL_INFO;
+          if(userInfo) {
+            token.id = userInfo.id
+            token.book = userInfo.book;
+            token.bookclub = userInfo.bookclub;
+            token.profileImg = userInfo.profileImg;
+            token.booknote = userInfo.booknote;
+            token.scrapnote = userInfo.scrapnote;
+            token.name = userInfo.name;
+          }
           
       }
       return token;
     },
 
     session({ session, token }) {
+
         session.user.id = token.id;
-        session.user.name = token.nickName;
-        session.user.image = token.profileImg;
+        session.user.name = token.name!;
+        session.user.profileImg = token.profileImg;
         session.user.type = token.type;
-        session.user.util = token.utilInfo
+        session.user.book = token.book;
+        session.user.bookclub = token.bookclub;
+        session.user.booknote = token.booknote;
+        session.user.scrapnote = token.scrapnote
 
       return session;
     }

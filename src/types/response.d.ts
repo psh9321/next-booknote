@@ -39,9 +39,10 @@ declare global {
     type API_TARGET_BOOK_INFO = RESPONSE_MODEL<ALADIN.BOOK_ITEM>
 
     /** 내 유틸 정보 */
-    type API_MY_UTIL_INFO = RESPONSE_MODEL<MY_UTIL_INFO>
+    type API_MY_UTIL_INFO = RESPONSE_MODEL<MY_INFO>
 
     interface MY_BOOK_ITEM {
+
         /** 책 제목 */
         bookTitle : string;
 
@@ -84,6 +85,64 @@ declare global {
     }
 
     type API_GET_MY_BOOK = RESPONSE_MODEL<MY_BOOK_RESPONSE>
+
+    interface MY_BOOK_NOTE_ITEM {
+
+        /** 북노트 고유 아이디 */
+        _id : string,
+
+        /** 책 제목 */
+        booktitle: string,
+
+        /** 책 커버 */
+        bookCover: string,
+
+        /** 북코드 */
+        bookCode: string,
+
+        /** 북노트 콘텐츠 */
+        noteContents: string,
+
+        /** 북노트 등록 유저 아이디 */
+        writerId: string,
+
+        /** 북노트 등록 유저 이름 */
+        writerName: string,
+
+        /** 북노트 등록 이미지 */
+        contentsImages: string[],
+
+        /** 북노트 좋아요 수 */
+        favorite: number,
+
+        /** 북노트 스크랩 수 */
+        scrap : number
+
+        /** 독서노트 공개 여부 */
+        isPublic : boolean,
+
+        /** 독서노트 생성 일 */
+        createDate : string,
+
+        /** 독서노트 수정 일 */
+        updateDate: string
+    }
+
+
+    interface MY_BOOK_NOTE_RESPONSE {
+        /** 현재 페이지 */
+        page : number;
+
+        limit : number;
+
+        /** 전체 게시물 수 */
+        total : number;
+
+        /** 저장된 책 리스트 */
+        list : MY_BOOK_NOTE_ITEM[]
+    }
+
+    type API_GET_MY_BOOK_NOTE = RESPONSE_MODEL<MY_BOOK_NOTE_RESPONSE>
 }
 
 export {}

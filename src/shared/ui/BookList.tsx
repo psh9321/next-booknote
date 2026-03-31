@@ -11,7 +11,7 @@ interface BOOK_LIST {
 
 export const BookList = ({data, className} : BOOK_LIST) => {
     return (
-        <ol className={twMerge("min-h-[400px] mt-[20px] py-[20px] px-[20px] bg-[#2A2F32] rounded-[10px] space-y-[20px]", className)}>
+        <ol className={twMerge("py-[20px] px-[20px] rounded-[10px] space-y-[20px]", className)}>
             {
                 data.map((el, i) => {
                     return <li key={`인기도서-${el["bookTitle"]}-${i}`}>

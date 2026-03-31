@@ -26,7 +26,7 @@ const SearchPageView = ({ type } : SEARCH_PAGE_VIEW) => {
                     <h2 className="sr-only">상단 박스</h2>
                     <SearchBookBox/>
                 </section>
-                <section className="h-[calc(100%-50px)] mt-[30px] overflow-y-auto">
+                <section className="mt-[30px]">
                     <h2 className="sr-only">하단 박스</h2>
                     <SearchResultBox type={type}/>
                 </section>

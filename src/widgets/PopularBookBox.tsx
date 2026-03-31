@@ -4,8 +4,8 @@ import { PopularBookList } from "@/features/PopularBookList"
 
 export const PopularBookBox = ({viewLength} : {viewLength? : number}) => {
     return (
-        <article>
-            <h3 className="inline-block font-[700] text-[1.2rem]">인기 도서</h3>
+        <article className="min-h-[400px] bg-[#2a2f32] rounded-[10px]">
+            <h2 className="sr-only">인기도서 리스트</h2>
             <PopularBookList viewLength={viewLength}/>
         </article>
     )

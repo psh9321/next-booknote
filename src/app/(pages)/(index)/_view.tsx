@@ -14,9 +14,11 @@ const IndexPageView = () => {
             <BestSellerBox/>
             <main className="flex flex-wrap justify-between gap-[20px] mt-[60px]">
                 <section className="w-[680px]">
+                    <h3 className="inline-block mb-[20px] font-[700] text-[1.2rem]">인기 도서</h3>
                     <PopularBookBox viewLength={2}/>            
                 </section>
                 <section className="w-[calc(100%-700px)]">
+                    <h3 className="inline-block mb-[20px] font-[700] text-[1.2rem]">인기 북클럽</h3>
                     <PopularBookClubBox/>
                 </section>
                 <section className="flex justify-between gap-[20px] w-full mt-[30px]">

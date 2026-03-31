@@ -1,7 +1,11 @@
 import ky from "ky";
 
+const prefixUrl = typeof window === 'undefined'
+    ? process.env.NEXT_PUBLIC_BACKEND_API_URL
+    : '/api/backend';
+
 export const BACKEND_API = ky.create({
-    prefixUrl : process.env.NEXT_PUBLIC_BACKEND_API_URL,
+    prefixUrl,
     timeout : 10000,
     hooks : {
         beforeRequest : [

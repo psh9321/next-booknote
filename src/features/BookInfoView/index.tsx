@@ -3,6 +3,8 @@
 import Image from "next/image"
 import { useRouter } from "next/navigation";
 
+import { useLayoutEffect } from "react";
+
 import { X } from 'lucide-react';
 import { BtnBookToggle } from "./ui/BtnBookToggle";
 
@@ -18,6 +20,14 @@ export const BookInfoView = ({data} : BOOK_INF0_VIEW) => {
         window.history.length > 1 ? navigation.back() : navigation.push("/");
     }
 
+    useLayoutEffect(() => {
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = "";
+        }
+    },[])
+
     if(!data) return <></>
     
     return (
@@ -28,11 +38,11 @@ export const BookInfoView = ({data} : BOOK_INF0_VIEW) => {
                 <h2 className="sr-only">{data?.["title"]} 도서 정보</h2>
                 <button onClick={NaviCallback} className="absolute top-[-40px] left-[0]" title="뒤로가기"><X size={35}/></button>
                 <div className="flex flex-wrap justify-between w-[450px] h-[530px] mx-auto py-[40px] px-[40px] overflow-y-auto">
-                    <div>
+                    <div className="relative w-[150px] h-[220px]">
                         <Image
-                            style={{ maxHeight : "220px" }}
-                            width={150}
-                            height={150}
+                            loading="eager"
+                            fill
+                            sizes="auto"
                             src={data?.["cover"]??""}
                             alt={`${data?.["title"]} 커버 이미지`}
                         />

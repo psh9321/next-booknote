@@ -7,8 +7,9 @@ import { useLayoutEffect, useRef } from "react"
 
 const opts = [
     { title : "등록한 책", path : "/my" },
-    { title : "내 북노트", path : "/my/booknote" },
-    { title : "스크랩 한 북노트", path : "/my/scrap" }
+    { title : "내 독서노트", path : "/my/booknote" },
+    { title : "스크랩 한 독서노트", path : "/my/scrap" },
+    { title : "가입한 독서클럽", path : "/my/bookclub" }
 ];
 
 export const MyPageNavList = () => {
@@ -23,6 +24,8 @@ export const MyPageNavList = () => {
         if(!targetBackgroundRef["current"]) return 
         if(!listWrapper["current"]) return
         if(anchorRef["current"].length <= 0) return
+
+        if(!pathname.includes("my")) return
         
         const targetAnchor = anchorRef["current"].find(el => el.getAttribute("href") === pathname) as HTMLAnchorElement;
 

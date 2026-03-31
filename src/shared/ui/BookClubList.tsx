@@ -9,7 +9,7 @@ interface BOOK_CLUB_LIST {
 
 export const BookClubList = ({data, className} : BOOK_CLUB_LIST) => {
     return (
-        <ol className="flex flex-wrap items-center gap-[20px] min-h-[400px] mt-[20px] py-[40px] px-[20px] bg-[#2A2F32] rounded-[10px]">
+        <ol className="flex flex-wrap items-center gap-[20px] min-h-[400px] py-[40px] px-[20px]">
             {
                 Array.from({length : 4}).map((_,i) => {
                     return (

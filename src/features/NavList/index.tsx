@@ -41,20 +41,20 @@ export const NavList = () => {
                     <Link href={""}><Send/>메세지</Link>
                 </li> */}
                 <li>
-                    <button><Heart/>알림</button>
-                </li>
-                <li>
                     <Link href={""}>
                     <BookUser/>북클럽</Link>
                 </li>
                 <li>
                     <Link href={""}>
-                    <NotebookText/>북노트 피드</Link>
+                    <NotebookText/>독서노트 피드</Link>
+                </li>
+                <li>
+                    <button><Heart/>알림</button>
                 </li>
                 <li>
                     <Link href={"/my"}>
                     {
-                        session && session.data?.user.image ? <Image width={24} height={24} src={session.data?.user.image} alt={`${session.data?.user.name} 프로필 이미지`} className='rounded-[100%]' loading="eager"/> : <User/>
+                        session && session.data?.user.profileImg ? <Image width={24} height={24} src={session.data?.user.profileImg} alt={`${session.data?.user.name} 프로필 이미지`} className='rounded-[100%]' loading="eager"/> : <User/>
                     }
                         내서재
                     </Link>

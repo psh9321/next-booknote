@@ -7,6 +7,7 @@ import { API_GET_POPULAR_BOOK } from "@/features/PopularBookList/api/api.popular
 import { API_GET_POPULAR_BOOK_NOTE } from "@/features/PopularBookNoteList/api/api.popular.book.note";
 import { API_GET_SEARCH_BOOK } from "@/features/SearchBox/api/api.search.book";
 import { API_GET_MY_BOOK_LIST } from "@/entities/my/api/api.my.book";
+import { API_GET_MY_BOOK_NOTE_LIST } from "@/entities/my/api/api.my.booknote";
 
 export const useBestSellerListHook = () => {
     
@@ -82,6 +83,33 @@ export const useMyBookQueryHook = (userId : string | undefined) => {
             if(!lastPage) return undefined;
 
             const { page, limit, total } = lastPage as MY_BOOK_RESPONSE;
+
+            const totalPage = Math.ceil(total/limit);
+
+            if(page < totalPage) return page+1;
+
+            return undefined
+        }
+    })
+
+    return { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage };
+}
+
+export const useMyBookNoteQueryHook = (userId : string | undefined) => {
+
+    const { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage } = useInfiniteQuery({
+        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE_LIST, userId],
+        queryFn : async ({pageParam}) => {
+            const result = await API_GET_MY_BOOK_NOTE_LIST(userId as string, pageParam);
+
+            return result
+        },
+        enabled : userId !== undefined,
+        initialPageParam : 0,
+        getNextPageParam(lastPage){
+            if(!lastPage) return undefined;
+
+            const { page, limit, total } = lastPage as MY_BOOK_NOTE_RESPONSE;
 
             const totalPage = Math.ceil(total/limit);
 

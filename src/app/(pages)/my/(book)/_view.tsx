@@ -1,21 +1,17 @@
 "use client"
 
-import { useSession } from "next-auth/react";
-
 import { MyBookBox } from "@/widgets/MyBookBox";
 
-const MyPageView = () => {
-
-    const session = useSession();
+const MyBookPageView = () => {
 
     return (
         <>
-            <h1 className="sr-only">내 서재 페이지</h1>
-            <main className="w-full mx-auto">
-                <MyBookBox userId={session.data?.user.id as string}/>
+            <h1 className="sr-only">내 서재 (등록한 책) 페이지</h1>
+            <main>
+                <MyBookBox/>
             </main>
         </>
     )
 }
 
-export default MyPageView
+export default MyBookPageView

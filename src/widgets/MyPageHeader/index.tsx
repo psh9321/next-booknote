@@ -1,7 +1,5 @@
 "use client"
 
-import Link from "next/link";
-
 import { useSession } from "next-auth/react";
 
 import { BeforeLogin } from "@/features/BeforeLogin"
@@ -12,7 +10,7 @@ export const MyPageHeader = () => {
 
     const session = useSession();
 
-    const profileImg = session.data?.user?.image.replace(/^http:\/\//, "https://");
+    const profileImg = session.data?.user?.profileImg?.replace(/^http:\/\//, "https://");
 
     return (
         <header className="fixed top-0 left-1/2 -translate-x-1/2 flex justify-between w-[1000px] pt-[20px] bg-[#0c1014] z-[9]">
