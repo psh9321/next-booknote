@@ -64,7 +64,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
           token.type = (user as any).type;
 
-          const userInfo : MY_INFO | null = await API_MY_UTIL_INFO({
+          const userInfo : MY_INFO_ITEM | null = await API_MY_UTIL_INFO({
             userId : account?.providerAccountId ?? (user as any).id,
             userName : (user as any).nickName
           });

@@ -3,7 +3,7 @@ import "next-auth/jwt"
 
 declare module "next-auth" {
 
-    interface USER extends MY_INFO {
+    interface USER extends MY_INFO_ITEM {
         type: "naver" | "kakao"
     }
 
@@ -14,7 +14,7 @@ declare module "next-auth" {
 }
 
 declare module "next-auth/jwt" {
-    interface JWT extends MY_INFO {
+    interface JWT extends MY_INFO_ITEM {
         type: "naver" | "kakao"
 
         /** 등록한 책 수 */

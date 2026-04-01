@@ -46,7 +46,7 @@ export const SearchResult = ({ type } : SEARCH_RESULT) => {
 
                 if(!page) return
 
-                const item = (page as SEARCH_BOOK_DATA)["items"];
+                const item = (page as SEARCH_BOOK_DATA)["list"];
 
                 return <BookList className="mt-[0px] py-[0]" key={JSON.stringify(page)} data={item} />
             })

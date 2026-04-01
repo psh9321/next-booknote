@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 
 import { API_GET_MY_BOOK_NOTE_LIST } from "@/entities/my/api/api.my.booknote";
 
-
 import MyMyBookNotePageView from "./_view"
 
 const MyBookNoteServer = async () => {
