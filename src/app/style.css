@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import 'swiper/css';
+@import "swiper/css/pagination";
 
 body {
     color: #f1f1f1;
@@ -12,6 +13,7 @@ button {
 
 textarea {
     resize: none;
+    outline: none;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -32,4 +34,13 @@ input {
 
 .no-scrollbar::-webkit-scrollbar {
     display: none;
+}
+
+
+.ql-container.ql-snow  {
+    border: none !important;
+}
+
+.ql-editor {
+    /* min-height: 250px; */
 }

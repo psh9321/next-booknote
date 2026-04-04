@@ -1,28 +1,16 @@
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-import { API_BEST_SELLER_LIST } from "@/features/BestSellerList/api/api.bestSeller";
+import { PrefetchBestSeller } from "@/server/prefetch/prefetch.BestSeller";
+import { PrefetchLatestAddBook } from "@/server/prefetch/prefetch.latest.add.book";
 
-import IndexPageView from "./_view";
-import { API_GET_POPULAR_BOOK_NOTE } from "@/features/PopularBookNoteList/api/api.popular.book.note";
-import { API_GET_POPULAR_BOOK } from "@/features/PopularBookList/api/api.popular.book";
+import IndexPageView from "./_view"
 
 const IndexPageServer = async () => {
+
     const queryServer = new QueryClient();
 
-    await queryServer.prefetchQuery({
-        queryKey: [process.env.NEXT_PUBLIC_QUERY_KEY_BEST_SELLER],
-        queryFn: API_BEST_SELLER_LIST
-    });
-
-    await queryServer.prefetchQuery({
-        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_BOOK_NOTE_POPULAR],
-        queryFn : API_GET_POPULAR_BOOK_NOTE
-    })
-
-    await queryServer.prefetchQuery({
-        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_BOOK_POPULAR],
-        queryFn : API_GET_POPULAR_BOOK
-    })
+    await PrefetchBestSeller(queryServer);
+    await PrefetchLatestAddBook(queryServer);
 
     const dehydratedState = dehydrate(queryServer);
 
@@ -31,6 +19,6 @@ const IndexPageServer = async () => {
             <IndexPageView />
         </HydrationBoundary>
     )
-};
+}
 
-export default IndexPageServer;
+export default IndexPageServer

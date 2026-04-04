@@ -1,8 +1,10 @@
 "use client"
 
-import { KakaoLogo, NaverLogo } from '@/svg/SSOLogo';
-import { ActionSSOLogin } from "./actions/action.sso"
 import { usePathname } from "next/navigation"
+
+import { signIn } from "next-auth/react";
+
+import { KakaoLogo, NaverLogo } from '@/svg/SSOLogo';
 
 export const BeforeLogin = () => {
 
@@ -18,22 +20,14 @@ export const BeforeLogin = () => {
 
         const type = self.dataset.type as "naver" | "kakao";
 
-        await ActionSSOLogin(type, pathname);
+        await signIn(type, { callbackUrl: pathname });
     }
     
     return (
         <>
             <div className="flex justify-between items-center">
                 <h3>로그인 후 더 많은 서비스를 이용해보세요.</h3>
-                <ul className="flex gap-[10px]
-                    [&>li>button]:flex 
-                    [&>li>button]:justify-center
-                    [&>li>button]:items-center
-                    [&>li>button]:size-[30px]
-                    [&>li>button]:rounded-[100%]
-                    [&>li>button]:overflow-hidden
-                    [&>li>button>svg]:size-[30px]
-                ">
+                <ul className="flex gap-[10px] [&>li>button]:flex  [&>li>button]:justify-center [&>li>button]:items-center [&>li>button]:size-[30px] [&>li>button]:rounded-[100%] [&>li>button]:overflow-hidden [&>li>button>svg]:size-[30px] ">
                     {
                         arr.map((el, i) => {
                             return (

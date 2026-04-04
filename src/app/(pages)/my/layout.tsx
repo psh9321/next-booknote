@@ -1,7 +1,7 @@
-import { MyPageHeader } from "@/widgets/MyPageHeader";
+import { MyPageHeader } from "@/widgets/MyPageHeader"
 
-const MyPageRoot = async ({children} : LAYOUT_CHILD) => {
-
+const MyPageRoot = ({children} : LAYOUT_CHILD) => {
+    
     return (
         <>
             <MyPageHeader/>

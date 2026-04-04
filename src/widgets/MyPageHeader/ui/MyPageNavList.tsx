@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react";
 
 import { useLayoutEffect, useRef } from "react"
 
 const opts = [
-    { title : "등록한 책", path : "/my" },
-    { title : "내 독서노트", path : "/my/booknote" },
-    { title : "스크랩 한 독서노트", path : "/my/scrap" },
-    { title : "가입한 독서클럽", path : "/my/bookclub" }
+    { title : "읽는 중", path : "/my" },
+    { title : "읽고 싶은 책", path : "/my/wish"},
+    { title : "완독 도서", path : "/my/completed"},
 ];
 
 export const MyPageNavList = () => {
@@ -52,7 +52,7 @@ export const MyPageNavList = () => {
             el.style.color = el.getAttribute("href") === pathname ? "#fff" : "#888"
         })
 
-    },[pathname])
+    },[pathname]);
 
     return (
         <nav>
@@ -61,9 +61,9 @@ export const MyPageNavList = () => {
                     opts.map((el, i) => {
                         return <li key={`${el["title"]}-${el["path"]}-${i}`}>
                             <Link 
-                                className="h-[40px] leading-[40px] text-[1.2rem] font-bold"
+                                className="relative h-[40px] leading-[40px] text-[1.2rem] font-bold"
                                 href={el["path"]}
-                                ref={a => { if(a)anchorRef["current"][i] = a } }
+                                ref={ref => { if(ref)anchorRef["current"][i] = ref } }
                             >
                                 {el["title"]}
                             </Link>

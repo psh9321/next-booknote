@@ -1,18 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode : false,
-  async rewrites() {
-    return [
-      {
-        source: '/api/backend/:path*',
-        destination: `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/:path*`
-      }
-    ]
-  },
   /* config options here */
-   productionBrowserSourceMaps : process.env.NODE_ENV === "production",
-   images : {
+  reactCompiler: true,
+  reactStrictMode : false,
+  images : {
     remotePatterns : [
       {
         protocol : "https",
@@ -47,16 +39,11 @@ const nextConfig: NextConfig = {
         hostname : "phinf.pstatic.net"
       },
       {
-        protocol : "http",
-        hostname : "localhost",
-        port : "9321",
-        pathname : "/**"
+        protocol : "https",
+        hostname : "http://k.kakaocdn.net/"
       }
     ]
-   },
-   compiler : {
-    removeConsole : process.env.NODE_ENV === "production"
-   }
+  }
 };
 
 export default nextConfig;

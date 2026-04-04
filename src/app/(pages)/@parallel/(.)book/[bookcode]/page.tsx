@@ -1,5 +1,5 @@
-import { BookInfoPrefetch } from "@/widgets/BookInfoPrefetch"
+import { BookInfoServerWidget } from "@/widgets/BookInfoServerWidget";
 
-const BookInfoParallelPageServer = ({ params } : BOOK_INFO_PAGE_PARAMS) => <BookInfoPrefetch params={params} />;
+const BookInfoParallelPageServer = async ({ params } : BOOK_INFO_PAGE_PARAMS) => <BookInfoServerWidget params={params} />
 
 export default BookInfoParallelPageServer
