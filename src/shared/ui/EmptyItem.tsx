@@ -12,7 +12,7 @@ interface EMPTY_ITEM {
 }
 export const EmptyItem = ({ className, title, txt, anchorTxt } : EMPTY_ITEM) => {
     return (
-        <dl className={`leading-[2] ${className??""}`}>
+        <dl className={`leading-[2] text-center font-bold ${className??""}`}>
             <dt className="flex flex-col justify-center items-center">
                 <BookAlert size={50} className="inline-block mb-[20px]"/>{title}
             </dt>

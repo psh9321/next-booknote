@@ -1,7 +1,7 @@
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 
-import { PrefetchBestSeller } from "@/server/prefetch/prefetch.BestSeller";
+import { PrefetchBestSeller } from "@/server/prefetch/prefetch.bestSeller";
 
 import SearchPageView from "./_view"
 

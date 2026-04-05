@@ -2,12 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation"
-import { useSession } from "next-auth/react";
 
 import { useLayoutEffect, useRef } from "react"
 
 const opts = [
-    { title : "읽는 중", path : "/my" },
+    { title : "읽는 중", path : "/my/read" },
     { title : "읽고 싶은 책", path : "/my/wish"},
     { title : "완독 도서", path : "/my/completed"},
 ];
@@ -29,6 +28,8 @@ export const MyPageNavList = () => {
         
         const targetAnchor = anchorRef["current"].find(el => el.getAttribute("href") === pathname) as HTMLAnchorElement;
 
+        if(!targetAnchor) return
+        
         const targetRect = targetAnchor.getBoundingClientRect();
         const wrapperRect = listWrapper["current"].getBoundingClientRect();
 
@@ -41,7 +42,7 @@ export const MyPageNavList = () => {
         targetBackground.style.left = `${left}px`;
 
         anchorRef["current"].forEach(el => {
-            
+
             if(el.getAttribute("href") === pathname) {
                 if(!el.classList.contains("active")) el.classList.add("active");
             }

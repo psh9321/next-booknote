@@ -6,6 +6,7 @@ import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
 import { API_GET_BEST_SELLER, API_GET_TARGET_BOOK_INFO } from "@/server/api/api.aladin";
 import { API_GET_LATEST_ADD_BOOK, API_GET_MY_BOOK } from "@/server/api/api.book";
+import { API_LATEST_BOOK_NOTE } from "@/server/api/api.booknote";
 
 /** 베스트 셀러 */
 export const useBestSellerHook = () => {
@@ -76,7 +77,7 @@ export const useSearchBookHook = (keyword : string) => {
 
 export const useMyBookHook = (userId : string, status : READING_STATUS) => {
     const { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage } = useInfiniteQuery({
-        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_MY_READ_BOOK, userId],
+        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK, userId, status],
         queryFn : async ({pageParam}) => {
             const result = await API_GET_MY_BOOK(userId, Number(pageParam??0), status);
 
@@ -93,11 +94,20 @@ export const useMyBookHook = (userId : string, status : READING_STATUS) => {
 
             const totalPage = Math.ceil(total/limit);
 
-            if(page < totalPage) return page+1;
+            if(page < totalPage - 1) return page+1;
 
             return undefined
         }
     });
 
     return { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage }
+}
+
+export const useLatestBookNoteHook = () => {
+    const { data, isLoading, isFetching, isError, isSuccess } = useQuery({
+        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_LATEST_BOOK_NOTE],
+        queryFn : API_LATEST_BOOK_NOTE,
+    });
+
+    return { data, isLoading, isFetching, isError, isSuccess }
 }

@@ -3,7 +3,7 @@
 import { ConnectDB } from "../util/connectDB";
 import { GetSessionId } from "../util/getSessionId";
 
-import { BookModel } from "../../schema/book.schema";
+import { BookModel } from "@/schema/book.schema";
 import { revalidatePath } from "next/cache";
 
 export async function API_GET_LATEST_ADD_BOOK() {
@@ -103,7 +103,7 @@ export async function API_CHECK_REGISTER_BOOK(
     }
 }
 
-export async function API_GET_MY_BOOK(userId: string, offset: number, status : READING_STATUS, limit = 15) {
+export async function API_GET_MY_BOOK(userId: string, offset: number, status : READING_STATUS, limit = 20) {
     try {
         const params = { userId, status };
 
@@ -111,7 +111,8 @@ export async function API_GET_MY_BOOK(userId: string, offset: number, status : R
             BookModel.countDocuments(params),
             BookModel.find(params)
             .skip(Number(offset) * Number(limit))
-            .limit(Number(limit)),
+            .limit(Number(limit))
+            .sort({ createAt: -1 })
         ]));
 
         

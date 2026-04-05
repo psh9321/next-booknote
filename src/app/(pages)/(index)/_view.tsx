@@ -1,16 +1,11 @@
 "use client"
 
-import { useState } from "react"
-import { BookPlus } from "lucide-react"
-
 import { BestSellerCarouselList } from "@/features/BestSeller/CarouselList"
 import { LatestReadBookList } from "@/features/LatestReadBookList"
 import { MyOptionsBox } from "@/widgets/MyOptionsBox"
-import { BookRegister } from "@/features/BookRegister"
+import { LatestBookNoteList } from "@/features/LatestBookNoteList"
 
 const IndexPageView = () => {
-
-    const [isRegisterOpen, setIsRegisterOpen] = useState(false)
 
     return (
         <>
@@ -32,8 +27,8 @@ const IndexPageView = () => {
                     </section>
                     <section>
                         <h3 className="inline-block mb-[20px] font-[700] text-[1.2rem]">최근 유저들이 등록한 독서노트</h3>
-                        <div className="h-[900px] bg-[#2A2F32] rounded-[10px]">
-
+                        <div className="p-[20px] bg-[#2A2F32] rounded-[10px]">
+                            <LatestBookNoteList/>
                         </div>
                     </section>
                 </div>
@@ -42,10 +37,6 @@ const IndexPageView = () => {
                     <MyOptionsBox/>
                 </section>
             </main>
-
-            {isRegisterOpen && (
-                <BookRegister onClose={() => setIsRegisterOpen(false)} />
-            )}
         </>
     )
 }

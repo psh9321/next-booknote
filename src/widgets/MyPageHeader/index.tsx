@@ -17,7 +17,7 @@ export const MyPageHeader = () => {
                 { session.status === "authenticated" && <MyInfoBox /> }
             </div>
 
-            {/* <MyPageNavList/> */}
+            <MyPageNavList/>
         </header>
     )
 }

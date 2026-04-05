@@ -10,7 +10,7 @@ import { X } from 'lucide-react';
 
 import { useBookInfoHook } from "@/hooks/useQuery";
 
-import { BtnRegister } from "./ui/BtnRegister";
+import { BtnRegister } from "../BtnRegister";
 
 interface BOOK_INFO_VIEW {
     status : READING_STATUS

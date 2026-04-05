@@ -64,15 +64,16 @@ export const MyBookList = ({ status, className } : MY_BOOK_LIST) => {
         fetchNextPage();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[isView]);
-
     
     return (
         <>
-            <ol className={"flex flex-wrap gap-[25px]"}>
+            {
+             isEmpty ? 
+            <EmptyItem className="mt-[150px] text-center" title={emptyContents[status]["title"]} txt={emptyContents[status]["txt"]}  anchorTxt={emptyContents[status]["anchorTxt"]}/>
+            :   
+            <ol className={"inline-flex flex-wrap w-[calc(100%-10px)]"}>
                 {
-                    isEmpty ? 
-                    <EmptyItem className="mt-[150px] text-center" title={emptyContents[status]["title"]} txt={emptyContents[status]["txt"]}  anchorTxt={emptyContents[status]["anchorTxt"]}/>
-                    :
+
                     data?.pages.map(page => {
 
                         if(!page) return
@@ -81,8 +82,8 @@ export const MyBookList = ({ status, className } : MY_BOOK_LIST) => {
 
                         return list.map((el, i) => {
                             return (
-                                <li className="text-center" key={`내가등록한도서-${el["bookTitle"]}-${i}`}>
-                                    <Link href={`/my/booknote/${el["_id"]}/${el["bookCode"]}`} className="relative block rounded-[10px]">
+                                <li className="m-[10px]" key={`내가등록한도서-${el["bookTitle"]}-${i}`}>
+                                    <Link href={`/my/book/${el["bookCode"]}`} className="relative block rounded-[10px]">
                                         <Image width={170} height={250} sizes="auto" src={el["bookCover"] as string} alt={`${el["bookTitle"]} 커버 이미지`} loading="eager" className="object-contain rounded-[10px]"/>
                                     </Link>
                                 </li>
@@ -92,7 +93,9 @@ export const MyBookList = ({ status, className } : MY_BOOK_LIST) => {
                 }
 
                 <li ref={ref} style={{height : "1px"}}></li>
-            </ol>        
+            </ol>   
+            }
+                 
         </>
 
     )

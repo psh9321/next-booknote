@@ -13,7 +13,7 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
 
     const [ isMenu, SetIsMenu ] = useState(false);
 
-    const [currentStatus, SetCurrentStatus] = useState<READING_STATUS>(status??"");
+    const [currentStatus, SetCurrentStatus] = useState<READING_STATUS | "">(status??"");
 
     async function RegisterCallback(e : React.UIEvent<HTMLButtonElement>) {
         const self = e.currentTarget;
