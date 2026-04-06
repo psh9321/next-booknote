@@ -1,8 +1,8 @@
 "use client"
 
-import { SearchHead } from '@/widgets/SearchHead';
-import { SearchContents } from '@/widgets/SearchContents';
-import { Footer } from '@/widgets/Footer';
+import { SearchHead } from '@/widgets/search/SearchHead';
+import { SearchContents } from '@/widgets/search/SearchContents';
+import { Footer } from '@/widgets/footer';
 
 
 const SearchPageView = () => {

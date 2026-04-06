@@ -4,8 +4,8 @@ import { useEffect } from "react";
 
 import useMediaQuery from "@parksuhyun9321/use-media-query";
 
-import { MyBookPagePC } from "@/widgets/MyBookPage/pc";
-import { MyBookPageMobile } from "@/widgets/MyBookPage/mobile";
+import { MyBookPagePC } from "@/widgets/my-page/book/pc";
+import { MyBookPageMobile } from "@/widgets/my-page/book/mobile";
 
 interface MY_BOOK_TARGET_PAGE_VIEW {
     bookcode : string,

@@ -1,10 +1,10 @@
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-import { PrefetchBestSeller } from "@/server/prefetch/prefetch.bestSeller";
-import { PrefetchLatestBook } from "@/server/prefetch/prefetch.latest.book";
-import { PrefetchLatestBookNote } from "@/server/prefetch/prefetch.latest.booknote";
+import { PrefetchBestSeller } from "@/entities/book/api/prefetch.bestseller";
+import { PrefetchLatestBook } from "@/entities/book/api/prefetch.latest.book";
+import { PrefetchLatestBookNote } from "@/entities/book-note/api/prefetch.latest.booknote";
 import IndexPageView from "./_view"
-import { GetSessionId } from "@/server/util/getSessionId";
+import { GetSessionId } from "@/shared/lib/getSessionId";
 
 const IndexPageServer = async () => {
 

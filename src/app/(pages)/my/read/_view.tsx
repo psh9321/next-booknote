@@ -1,6 +1,6 @@
 "use client"
 
-import { MyBookListBox } from "@/widgets/MyBookListBox"
+import { MyBookListBox } from "@/widgets/my-page/MyBookListBox"
 
 const MyReadBookPageView = () => {
     

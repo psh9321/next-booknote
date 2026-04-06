@@ -1,7 +1,7 @@
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-import { GetSessionId } from "@/server/util/getSessionId"
-import { PrefetchMyBook } from "@/server/prefetch/prefetch.my.book";
+import { GetSessionId } from "@/shared/lib/getSessionId"
+import { PrefetchMyBook } from "@/entities/book/api/prefetch.my.book";
 
 import MyWishBookPageView from "./_view"
 

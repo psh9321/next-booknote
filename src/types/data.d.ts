@@ -1,8 +1,8 @@
 import type { InferSchemaType, HydratedDocument } from "mongoose";
 
-import { BookSchema } from "@/schema/book.schema"
+import { BookSchema } from "@/entities/book/model/book.schema"
 
-import { BookNoteSchema } from "@/schema/booknote.schema"
+import { BookNoteSchema } from "@/entities/book-note/model/booknote.schema"
 
 declare global {
     type BOOK_MODEL = HydratedDocument<InferSchemaType<typeof BookSchema>>;

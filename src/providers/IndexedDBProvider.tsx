@@ -2,8 +2,6 @@
 
 export const IndexedDBProvider = () => {
 
-
-    
     return (
         <></>
     )

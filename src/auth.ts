@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
-import { API_USER_INFO } from "./server/api/api.user";
+import { API_USER_INFO } from "@/shared/lib/api.user";
 
 const maxAge = (60 * 60) * 4;
 

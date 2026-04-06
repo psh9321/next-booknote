@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react"
 import useMediaQuery from "@parksuhyun9321/use-media-query"
 
-import { BestSellerCarouselList } from "@/features/BestSeller/CarouselList"
-import { LatestBookList } from "@/features/LatestBookList"
-import { MyOptionsBox } from "@/widgets/MyOptionsBox"
-import { LatestBookNoteList } from "@/features/LatestBookNoteList"
-import { Footer } from "@/widgets/Footer"
+import { BestSellerCarouselList } from "@/features/best-seller/ui/CarouselList"
+import { LatestBookList } from "@/widgets/home/LatestBookList"
+import { MyOptionsBox } from "@/widgets/my-page/MyOptionsBox"
+import { LatestBookNoteList } from "@/widgets/home/LatestBookNoteList"
+import { Footer } from "@/widgets/footer"
 
 const IndexPageView = () => {
 

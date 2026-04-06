@@ -1,5 +1,5 @@
-import { Footer } from "@/widgets/Footer"
-import { MyPageHeader } from "@/widgets/MyPageHeader"
+import { Footer } from "@/widgets/footer"
+import { MyPageHeader } from "@/widgets/my-page/header"
 
 const MyPageRoot = ({children} : LAYOUT_CHILD) => {
     
