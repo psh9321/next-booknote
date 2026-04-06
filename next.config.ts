@@ -2,8 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactCompiler: true,
-  reactStrictMode : false,
+  reactCompiler: process.env.NODE_ENV === "production",
+  reactStrictMode : process.env.NODE_ENV === "production",
+
   images : {
     remotePatterns : [
       {
@@ -40,7 +41,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol : "https",
-        hostname : "http://k.kakaocdn.net/"
+        hostname : "http://k.kakaocdn.net"
       }
     ]
   }
