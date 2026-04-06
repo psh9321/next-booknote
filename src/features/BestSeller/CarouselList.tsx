@@ -36,8 +36,13 @@ export const BestSellerCarouselList = () => {
             <Swiper
                 modules={[Navigation]}
                 wrapperTag="ol"
-                slidesPerView={5}
-                spaceBetween={25}
+                slidesPerView={2}
+                spaceBetween={15}
+                breakpoints={{
+                    550:  { slidesPerView: 3, spaceBetween: 20 },
+                    700: { slidesPerView: 4, spaceBetween: 25 },
+                    1000: { slidesPerView: 5, spaceBetween: 25 },
+                }}
                 className="w-full"
                 navigation
                 onBeforeInit={(swiper) => {
@@ -47,20 +52,21 @@ export const BestSellerCarouselList = () => {
                 onInit={SetNavBtnsCallback}
                 onSlideChange={SetNavBtnsCallback}
             >
-                
+
                 {
                     (data as ALADIN.ALADIN_ITEM[]).map((el, i) => (
-                        <SwiperSlide className="w-[20%]" tag="li" key={`${JSON.stringify(el)}-${i}`}>
+                        <SwiperSlide tag="li" key={`${JSON.stringify(el)}-${i}`}>
                             <Link href={`/book/${el["isbn"]}`}>
-                                <Image
-                                    src={el["cover"]}
-                                    alt={`${el["title"]} 커버 이미지`}
-                                    width={150}
-                                    height={200}
-                                    sizes="auto"
-                                    loading="eager"
-                                    className="rounded-[10px]"
-                                />
+                                <div className="relative aspect-[3/4]">
+                                    <Image
+                                        fill
+                                        src={el["cover"]}
+                                        alt={`${el["title"]} 커버 이미지`}
+                                        sizes="(max-width: 550px) 50vw, (max-width: 700px) 25vw, 20vw"
+                                        loading="eager"
+                                        className="rounded-[10px] object-cover"
+                                    />
+                                </div>
                             </Link>
                         </SwiperSlide>
                     ))
