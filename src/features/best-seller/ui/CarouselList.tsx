@@ -44,7 +44,10 @@ export const BestSellerCarouselList = () => {
                     1000: { slidesPerView: 5, spaceBetween: 25 },
                 }}
                 className="w-full"
-                navigation
+                navigation={{
+                    prevEl: prevRef.current,
+                    nextEl: nextRef.current,
+                }}
                 onBeforeInit={(swiper) => {
                     (swiper.params.navigation as NavigationOptions).prevEl = prevRef.current;
                     (swiper.params.navigation as NavigationOptions).nextEl = nextRef.current;

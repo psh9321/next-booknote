@@ -1,9 +1,5 @@
 import ky from "ky";
 
-const prefixUrl = typeof window === 'undefined'
-    ? process.env.NEXT_PUBLIC_BACKEND_API_URL
-    : '/api/backend';
-
 export const CLIENT_API = ky.create({
     prefixUrl : `/api`,
     method : "post",
