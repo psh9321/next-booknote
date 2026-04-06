@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "./style.css";
 import QueryProvider from "@/providers/QueryProvider";
 import SessionProvider from "@/providers/SessionProvider";
-import { Footer } from "@/widgets/Footer";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -14,13 +13,11 @@ const RootLayout = ({ children } : LAYOUT_CHILD) => {
 
     return (
         <html lang="ko">
-        <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <body suppressHydrationWarning>
             <SessionProvider>
                   <QueryProvider>
-                    <div className="block w-[1000px] mx-auto pb-[120px]">
-                        {children}
-                    </div>
-                    <Footer/>
+                    {children}
+                    <div id="portal-root"></div>
                   </QueryProvider>
             </SessionProvider>
         </body>

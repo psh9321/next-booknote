@@ -28,7 +28,7 @@ export const BestSellerCarouselList = () => {
     if(isError || !data) return <></>;
 
     return (
-        <div className="flex items-center gap-4 [&>button]:shrink-0 [&>button]:w-8 [&>button]:h-8 [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:rounded-full [&>button]:bg-gray-200 [&>button]:hover:bg-gray-300 [&>button:disabled]:opacity-30 [&>button:disabled]:cursor-not-allowed [&>button>svg]:stroke-[#000]">
+        <div className="flex items-center gap-4 select-none [&>button]:shrink-0 [&>button]:w-8 [&>button]:h-8 [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:rounded-full [&>button]:bg-gray-200 [&>button]:hover:bg-gray-300 [&>button:disabled]:opacity-30 [&>button:disabled]:cursor-not-allowed [&>button>svg]:stroke-[#000]">
 
             <button ref={prevRef}><ChevronLeft/></button>
             <button ref={nextRef} className="order-last"><ChevronRight/></button>
@@ -38,6 +38,7 @@ export const BestSellerCarouselList = () => {
                 wrapperTag="ol"
                 slidesPerView={5}
                 spaceBetween={25}
+                className="w-full"
                 navigation
                 onBeforeInit={(swiper) => {
                     (swiper.params.navigation as NavigationOptions).prevEl = prevRef.current;
@@ -49,12 +50,13 @@ export const BestSellerCarouselList = () => {
                 
                 {
                     (data as ALADIN.ALADIN_ITEM[]).map((el, i) => (
-                        <SwiperSlide tag="li" key={`${JSON.stringify(el)}-${i}`}>
-                            <Link href={`/book/${el["isbn"]}`} className="relative block w-[150px] h-[200px]">
+                        <SwiperSlide className="w-[20%]" tag="li" key={`${JSON.stringify(el)}-${i}`}>
+                            <Link href={`/book/${el["isbn"]}`}>
                                 <Image
                                     src={el["cover"]}
                                     alt={`${el["title"]} 커버 이미지`}
-                                    fill
+                                    width={150}
+                                    height={200}
                                     sizes="auto"
                                     loading="eager"
                                     className="rounded-[10px]"

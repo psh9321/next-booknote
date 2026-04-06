@@ -6,7 +6,7 @@ import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
 import { API_GET_BEST_SELLER, API_GET_TARGET_BOOK_INFO } from "@/server/api/api.aladin";
 import { API_GET_LATEST_ADD_BOOK, API_GET_MY_BOOK } from "@/server/api/api.book";
-import { API_LATEST_BOOK_NOTE } from "@/server/api/api.booknote";
+import { API_GET_MY_BOOK_NOTE, API_LATEST_BOOK_NOTE } from "@/server/api/api.booknote";
 
 /** 베스트 셀러 */
 export const useBestSellerHook = () => {
@@ -103,11 +103,45 @@ export const useMyBookHook = (userId : string, status : READING_STATUS) => {
     return { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage }
 }
 
-export const useLatestBookNoteHook = () => {
+export const useLatestBookNoteHook = (userId : string | undefined) => {
     const { data, isLoading, isFetching, isError, isSuccess } = useQuery({
-        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_LATEST_BOOK_NOTE],
-        queryFn : API_LATEST_BOOK_NOTE,
+        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_LATEST_BOOK_NOTE, userId],
+        queryFn : async () => {
+            if(!userId) return null
+            
+            return await API_LATEST_BOOK_NOTE(userId)
+        },
+        enabled : typeof userId === "string",
     });
 
     return { data, isLoading, isFetching, isError, isSuccess }
+}
+
+export const useMyBookNoteHook = (userId : string, bookcode: string) => {
+
+    const { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+        queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE, userId, bookcode],
+        queryFn : async ({pageParam}) => {
+            const result = await API_GET_MY_BOOK_NOTE(userId, bookcode, Number(pageParam??0));
+
+            return result
+        },
+        enabled : typeof userId === "string" && userId.length > 0,
+        initialPageParam : 0,
+        getNextPageParam : (lastPage : CLIENT_API.BOOK_ITEM_LIST_RESPONSE) => {
+            if(!lastPage) return undefined;
+
+            const { page, total, limit } = lastPage;
+
+            if(total <= 0) return undefined;
+
+            const totalPage = Math.ceil(total/limit);
+
+            if(page < totalPage - 1) return page+1;
+
+            return undefined
+        }
+    });
+
+    return { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage, refetch }
 }

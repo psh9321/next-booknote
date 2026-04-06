@@ -7,7 +7,9 @@ declare module "next-auth" {
         id : string,
         name : string,
         type: "naver" | "kakao",
-        profileImg : string
+        profileImg : string,
+        book : number,
+        booknote : number
     }
 
     interface Session {
@@ -21,7 +23,9 @@ declare module "next-auth/jwt" {
         id: string,
         name: string,
         type: "naver" | "kakao",
-        profileImg: string
+        profileImg: string,
+        book : number,
+        booknote : number
     }
 }
 

@@ -2,8 +2,12 @@ import type { InferSchemaType, HydratedDocument } from "mongoose";
 
 import { BookSchema } from "@/schema/book.schema"
 
+import { BookNoteSchema } from "@/schema/booknote.schema"
+
 declare global {
     type BOOK_MODEL = HydratedDocument<InferSchemaType<typeof BookSchema>>;
+
+    type BOOK_NOTE_MODEL = HydratedDocument<InferSchemaType<typeof BookNoteSchema>>;
 
     /** 
      * 읽기 상태 

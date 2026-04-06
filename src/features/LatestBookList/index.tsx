@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useLatestAddBookHook } from "@/hooks/useQuery";
 import { EmptyItem } from "@/shared/ui/EmptyItem";
 
-export const LatestReadBookList = () => {
+export const LatestBookList = () => {
 
     const { data, isError } = useLatestAddBookHook();
 
@@ -33,11 +33,11 @@ export const LatestReadBookList = () => {
                 data.length > 0 ?
                 (data as BOOK_MODEL[])?.map((el, i) => {
                     return <li key={`인기도서-${el["bookTitle"]}-${i}`}>
-                   <Link className="inline-flex justify-between" href={`/book/${el["bookCode"]}`}>
-                            <div className="relative w-[120px] h-[150px]">
-                                <Image fill sizes="auto" src={el?.["bookCover"]!} alt={`${el["bookTitle"]} 커버 이미지`} loading="eager" className="object-contain rounded-[10px]"/>
+                   <Link className="inline-flex justify-between select-none" href={`/book/${el["bookCode"]}`}>
+                            <div className="relative">
+                                <Image width={120} height={150} sizes="100vw" src={el?.["bookCover"]!} alt={`${el["bookTitle"]} 커버 이미지`} loading="eager" className="rounded-[10px]"/>
                             </div>
-                            <dl className="w-[calc(100%-120px)] mt-[12px] ml-[12px] [&>dd]:leading-[1.8] [&>dd]:text-[0.8rem] [&>dd]:truncate">
+                            <dl className="w-[calc(100%-132px)] mt-[12px] ml-[12px] [&>dd]:leading-[1.8] [&>dd]:text-[0.8rem] [&>dd]:truncate">
                                 <dt className="mb-[15px] line-clamp-2">{el["bookTitle"]}</dt>
                                 <dd>{el["bookAuthor"]}</dd>
                                 <dd>{el["bookPublisher"]}</dd>

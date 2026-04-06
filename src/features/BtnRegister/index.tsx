@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { BookPlus, BookOpen, CheckCircle, BookMarked, Check, Trash2 } from 'lucide-react';
 import { API_REGISTER_BOOK, API_REGISTER_BOOK_DELETE, API_REGISTER_BOOK_UPDATE } from '@/server/api/api.book';
+import { useSession } from 'next-auth/react';
 
 interface BTN_ADD_BOOK {
     item : ALADIN.ALADIN_ITEM,
@@ -12,6 +13,8 @@ interface BTN_ADD_BOOK {
 export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
 
     const [ isMenu, SetIsMenu ] = useState(false);
+
+    const {  data : session ,update } = useSession();
 
     const [currentStatus, SetCurrentStatus] = useState<READING_STATUS | "">(status??"");
 
@@ -35,7 +38,13 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
                 status : type
             } as BOOK_MODEL;
 
-            await API_REGISTER_BOOK(params)
+            await API_REGISTER_BOOK(params);
+
+            update({
+                user : {
+                    book : (session?.user.book??0) + 1
+                }
+            })
         }
 
         SetIsMenu(false);
@@ -47,22 +56,28 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
 
         SetIsMenu(false);
         SetCurrentStatus("");
+
+            update({
+                user : {
+                    book : (session?.user.book??0) - 1
+                }
+            })
     }
 
     return (
         <>
-            <div className="relative inline-flex text-[1.1rem] bg-[#3b82f6] rounded-[8px] [&>button]:h-[35px] [&>button]:leading-[35px] [&>button]:text-center">
+            <div className="relative inline-flex text-[1.1rem] rounded-[10px] overflow-hidden [&>button]:h-[35px] [&>button]:leading-[35px] [@media(max-width:499px)]:justify-center">
                 {
                     currentStatus ? 
-                    <button onClick={() => SetIsMenu(true)} className='flex justify-center items-center gap-[5px] w-[150px] [&>svg]:size-[18px]'>
+                    <button onClick={() => SetIsMenu(true)} className='flex justify-center items-center gap-[5px] w-[150px] [&>svg]:size-[18px] bg-[#3b82f6]'>
                         { currentStatus === "READ" && <>읽는중 <BookOpen/></> }
                         { currentStatus === "WISH" && <>읽고 싶은 책 <BookMarked/></> }
                         { currentStatus === "COMPLETED" && <>완독 <CheckCircle/></> }
                     </button>
                     :
                     <>
-                        <button data-read-type="WISH" onClick={RegisterCallback} className="w-[78px] px-[8px]">읽고싶은</button>
-                        <button onClick={() => SetIsMenu(true)} className="px-[6px] border-l border-[#fff]"><BookPlus size={20} /></button>                
+                        <button data-read-type="WISH" onClick={RegisterCallback} className="w-[78px] px-[8px] bg-[#3b82f6]">읽고싶은</button>
+                        <button onClick={() => SetIsMenu(true)} className="px-[6px] bg-[#3b82f6] border-l border-[#fff]"><BookPlus size={20} /></button>                
                     </>
                 }
                 {

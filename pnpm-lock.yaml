@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@parksuhyun9321/use-media-query':
+        specifier: ^1.0.13
+        version: 1.0.13(react@19.2.4)
       '@tanstack/react-query':
         specifier: ^5.96.1
         version: 5.96.1(react@19.2.4)
+      he:
+        specifier: ^1.2.0
+        version: 1.2.0
       idb:
         specifier: ^8.0.3
         version: 8.0.3
@@ -54,6 +60,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.96.1
         version: 5.96.1(@tanstack/react-query@5.96.1(react@19.2.4))(react@19.2.4)
+      '@types/he':
+        specifier: ^1.2.3
+        version: 1.2.3
       '@types/node':
         specifier: ^20
         version: 20.19.37
@@ -451,6 +460,11 @@ packages:
   '@panva/hkdf@1.2.1':
     resolution: {integrity: sha512-6oclG6Y3PiDFcoyk8srjLfVKyMfVCKJ27JwNPViuXziFpmdz+MZnZN/aKY0JGXgYuO/VghU0jcOAZgWXZ1Dmrw==}
 
+  '@parksuhyun9321/use-media-query@1.0.13':
+    resolution: {integrity: sha512-0RK4XV6qINRFunU6XnypSYvFi39cSpP2uX5kdHUY58ZuWvWrEbz3tCvlz2u8WsexgFzY+JoJa9gnwmGkGigijQ==}
+    peerDependencies:
+      react: '>=18'
+
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
@@ -567,6 +581,9 @@ packages:
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
+
+  '@types/he@1.2.3':
+    resolution: {integrity: sha512-q67/qwlxblDzEDvzHhVkwc1gzVWxaNxeyHUBF4xElrvjL11O+Ytze+1fGpBHlr/H9myiBUaUXNnNPmBHxxfAcA==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -1264,6 +1281,10 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
+
+  he@1.2.0:
+    resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
+    hasBin: true
 
   hermes-estree@0.25.1:
     resolution: {integrity: sha512-0wUoCcLp+5Ev5pDW2OriHC2MJCbwLwuRx+gAqMTOkGKJJiBCLjtrvy4PWUGn6MIVefecRpzoOZ/UV6iGdOr+Cw==}
@@ -2537,6 +2558,10 @@ snapshots:
 
   '@panva/hkdf@1.2.1': {}
 
+  '@parksuhyun9321/use-media-query@1.0.13(react@19.2.4)':
+    dependencies:
+      react: 19.2.4
+
   '@rtsao/scc@1.1.0': {}
 
   '@swc/helpers@0.5.15':
@@ -2633,6 +2658,8 @@ snapshots:
     optional: true
 
   '@types/estree@1.0.8': {}
+
+  '@types/he@1.2.3': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -3494,6 +3521,8 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
+
+  he@1.2.0: {}
 
   hermes-estree@0.25.1: {}
 

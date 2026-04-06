@@ -9,6 +9,9 @@ body {
 
 button {
     cursor: pointer;
+    user-select: none;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 textarea {
@@ -32,7 +35,7 @@ input {
     scrollbar-width: none;
 }
 
-.no-scrollbar::-webkit-scrollbar {
+*::-webkit-scrollbar {
     display: none;
 }
 

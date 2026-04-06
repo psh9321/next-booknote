@@ -9,6 +9,7 @@ import { ChevronLeft } from 'lucide-react';
 import { useBookInfoHook } from "@/hooks/useQuery";
 
 import { BtnRegister } from "../BtnRegister";
+import { BtnDescription } from "./ui/BtnDescription";
 
 interface MY_PAGE_BOOK_INFO {
     bookcode : string,
@@ -31,7 +32,10 @@ export const MyPageBookInfo = ({ bookcode, status } : MY_PAGE_BOOK_INFO) => {
             <h2 className="sr-only">{data?.["title"]} 정보</h2>
             <button title="뒤로가기" onClick={NaviCallback} className="absolute top-0 left-0"><ChevronLeft size={45}/></button>
             <div className="inline-block mb-[20px]">
-                <Image className="mb-[15px]" loading="eager" width={150} height={220} sizes="auto" src={data?.["cover"]??""} alt={`${data?.["title"]} 커버 이미지`} />
+                <div className="flex items-end mb-[15px]">
+                    <Image loading="eager" width={150} height={220} sizes="auto" src={data?.["cover"]??""} alt={`${data?.["title"]} 커버 이미지`} />
+                    <BtnDescription className="ml-[5px]" description={data?.["description"]}/>
+                </div>
                 <BtnRegister item={data} status={status} />
             </div>
 
@@ -46,10 +50,6 @@ export const MyPageBookInfo = ({ bookcode, status } : MY_PAGE_BOOK_INFO) => {
                     }
                 </dd>
             </dl>
-            {/* <dl className="w-full leading-[1.8] mt-[50px] break-keep">
-                <dt className="inline-block mb-[10px] border-b">책 소개</dt>
-                <dd>{data?.["description"]}</dd>
-            </dl> */}
         </article>
     )
 }

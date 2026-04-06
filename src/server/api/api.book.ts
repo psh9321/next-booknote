@@ -110,9 +110,9 @@ export async function API_GET_MY_BOOK(userId: string, offset: number, status : R
         const [total, list] = await ConnectDB(async () => Promise.all([
             BookModel.countDocuments(params),
             BookModel.find(params)
+            .sort({ createAt: -1 })
             .skip(Number(offset) * Number(limit))
             .limit(Number(limit))
-            .sort({ createAt: -1 })
         ]));
 
         

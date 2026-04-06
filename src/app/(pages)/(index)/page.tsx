@@ -4,8 +4,7 @@ import { PrefetchBestSeller } from "@/server/prefetch/prefetch.bestSeller";
 import { PrefetchLatestBook } from "@/server/prefetch/prefetch.latest.book";
 import { PrefetchLatestBookNote } from "@/server/prefetch/prefetch.latest.booknote";
 import IndexPageView from "./_view"
-
-
+import { GetSessionId } from "@/server/util/getSessionId";
 
 const IndexPageServer = async () => {
 
@@ -13,7 +12,13 @@ const IndexPageServer = async () => {
 
     await PrefetchBestSeller(queryServer);
     await PrefetchLatestBook(queryServer);
-    await PrefetchLatestBookNote(queryServer);
+
+    const sessionId = await GetSessionId();
+    
+    if(sessionId) {
+        
+        await PrefetchLatestBookNote(queryServer, sessionId);
+    }
 
     const dehydratedState = dehydrate(queryServer);
 

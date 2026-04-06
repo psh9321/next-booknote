@@ -83,6 +83,10 @@ declare global {
             bookCode : string
         }
 
+        interface BOOK_NOTE_ITEM {
+
+        }
+
         interface SEARCH_RESPONSE_DATA extends INFINITY_RESPONSE_ITEM<SEARCH_ITEM[]> {
             keyword : string
         }
@@ -90,6 +94,8 @@ declare global {
         type SEARCH_RESPONSE = RESPONSE_MODEL<SEARCH_RESPONSE_DATA>;
 
         type BOOK_ITEM_LIST_RESPONSE = INFINITY_RESPONSE_ITEM<BOOK_MODEL[]>
+
+        type BOOK_NOTE_ITEM_RESPONSE = INFINITY_RESPONSE_ITEM<BOOK_NOTE_MODEL[]>;
 
         type ERROR_RESPONSE = RESPONSE_MODEL<Error>
     }

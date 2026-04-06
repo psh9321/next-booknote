@@ -1,14 +1,14 @@
 import type { QueryClient } from "@tanstack/react-query"
-import { API_GET_MY_BOOK } from "../api/api.book";
+import { API_GET_MY_BOOK_NOTE } from "../api/api.booknote";
 
-export async function PrefetchMyBook(queryServer : QueryClient, userId : string, status : READING_STATUS) {
+export async function PrefetchMyBookNote(queryServer : QueryClient, userId : string, bookcode : string) {
     await queryServer.prefetchInfiniteQuery({
-        queryKey: [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK, userId, status],
+        queryKey: [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE, userId, bookcode],
         queryFn: async ({ pageParam }) => {
-            return await API_GET_MY_BOOK(userId, pageParam, status);
+            return await API_GET_MY_BOOK_NOTE(userId, bookcode, pageParam);
         },
         initialPageParam: 0,
-        getNextPageParam(lastPage : CLIENT_API.BOOK_ITEM_LIST_RESPONSE){
+        getNextPageParam(lastPage : CLIENT_API.BOOK_NOTE_ITEM_RESPONSE){
             if(!lastPage) return undefined;
 
             const { page, limit, total } = lastPage;

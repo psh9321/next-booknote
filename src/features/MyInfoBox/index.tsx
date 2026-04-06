@@ -24,14 +24,14 @@ export const MyInfoBox = () => {
                 profileImg && <Image fill src={profileImg} alt={`프로필 이미지`} sizes="auto" loading="eager" className='object-cover' />
             }
             </Link>          
-            <dl className='ml-[15px] [&>dd]:inline-block [&>dd]:text-[0.9rem]'>
+            <dl className='ml-[15px] select-none [&>dd]:inline-block [&>dd]:text-[0.9rem]'>
                 <dt className='flex items-center mb-[10px] text-[1.1rem] [&>svg]:mr-[10px]'>
                     { type === "naver" && <NaverLogo/> }
                     { type === "kakao" && <KakaoLogo/> }
                     {name}
                 </dt>
-                <dd>등록한 책 : 1</dd>
-                <dd className='ml-[15px]'>등록한 독서노트 : 0</dd>
+                <dd>등록한 책 : {session.data?.user.book??0}</dd>
+                <dd className='ml-[15px]'>등록한 독서노트 : {session.data?.user.booknote??0}</dd>
             </dl>       
             <button className='ml-auto border-b' onClick={() => signOut()}>
                 로그아웃

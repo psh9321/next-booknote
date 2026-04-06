@@ -7,8 +7,8 @@ import { useLayoutEffect, useRef } from "react"
 
 const opts = [
     { title : "읽는 중", path : "/my/read" },
-    { title : "읽고 싶은 책", path : "/my/wish"},
     { title : "완독 도서", path : "/my/completed"},
+    { title : "읽고 싶은 책", path : "/my/wish"},
 ];
 
 export const MyPageNavList = () => {

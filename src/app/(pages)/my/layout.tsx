@@ -1,3 +1,4 @@
+import { Footer } from "@/widgets/Footer"
 import { MyPageHeader } from "@/widgets/MyPageHeader"
 
 const MyPageRoot = ({children} : LAYOUT_CHILD) => {
@@ -5,9 +6,10 @@ const MyPageRoot = ({children} : LAYOUT_CHILD) => {
     return (
         <>
             <MyPageHeader/>
-            <div className="min-h-[calc(100dvh-220px)] mt-[100px] p-[20px] bg-[#2A2F32] rounded-[10px]">
-                {children}
+            <div className="w-[1000px] mx-auto [@media(max-width:1030px)]:w-full">   
+                {children}   
             </div>
+            <Footer/>
         </>
     )
 }

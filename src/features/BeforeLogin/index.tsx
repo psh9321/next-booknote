@@ -1,8 +1,6 @@
 "use client"
 
-import { usePathname } from "next/navigation"
-
-import { signIn } from "next-auth/react";
+import { useEffect, useRef } from "react";
 
 import { KakaoLogo, NaverLogo } from '@/svg/SSOLogo';
 
@@ -13,39 +11,61 @@ export const BeforeLogin = () => {
         { type : "kakao", logo : <KakaoLogo/> }
     ]
 
-    const pathname = usePathname();
+    const popupRef = useRef<Window | null>(null);
 
-    async function ClickCallback(e : React.UIEvent<HTMLButtonElement>) {
+    useEffect(() => {
+        function handleMessage(event: MessageEvent) {
+            if (event.origin !== window.location.origin) return;
+            if (event.data?.type === "SOCIAL_LOGIN_SUCCESS") {
+                window.location.reload();
+            }
+        }
+
+        window.addEventListener("message", handleMessage);
+        return () => window.removeEventListener("message", handleMessage);
+    }, []);
+
+    function ClickCallback(e: React.UIEvent<HTMLButtonElement>) {
         const self = e.currentTarget;
-
         const type = self.dataset.type as "naver" | "kakao";
 
-        await signIn(type, { callbackUrl: pathname });
-    }
-    
-    return (
-        <>
-            <div className="flex justify-between items-center">
-                <h3>로그인 후 더 많은 서비스를 이용해보세요.</h3>
-                <ul className="flex gap-[10px] [&>li>button]:flex  [&>li>button]:justify-center [&>li>button]:items-center [&>li>button]:size-[30px] [&>li>button]:rounded-[100%] [&>li>button]:overflow-hidden [&>li>button>svg]:size-[30px] ">
-                    {
-                        arr.map((el, i) => {
-                            return (
-                                <li key={`소셜로그인버튼-${el["type"]}-${i}`}>
-                                    <button 
-                                        data-type={el["type"]}
-                                        onClick={ClickCallback} 
-                                        className="flex justify-center items-center size-[30px] rounded-[100%] overflow-hidden [&>svg]:size-[30px]"
-                                    >
-                                        {el["logo"]}
-                                    </button>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-            </div>
-        </>
+        const callbackUrl = encodeURIComponent(`${window.location.origin}/auth/popup-callback`);
+        const url = `/auth/login-redirect?provider=${type}&callbackUrl=${callbackUrl}`;
 
+        const width = 550;
+        const height = 550;
+        const left = window.screenX + (window.outerWidth - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        if (popupRef.current && !popupRef.current.closed) {
+            popupRef.current.focus();
+            return;
+        }
+
+        popupRef.current = window.open(
+            url,
+            "socialLogin",
+            `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,scrollbars=yes,resizable=yes`
+        );
+    }
+
+    return (
+        <ul className="flex gap-[10px] [&>li>button]:flex  [&>li>button]:justify-center [&>li>button]:items-center [&>li>button]:size-[30px] [&>li>button]:rounded-[100%] [&>li>button]:overflow-hidden [&>li>button>svg]:size-[30px] ">
+            {
+                arr.map((el, i) => {
+                    return (
+                        <li key={`소셜로그인버튼-${el["type"]}-${i}`}>
+                            <button
+                                data-type={el["type"]}
+                                onClick={ClickCallback}
+                                className="flex justify-center items-center size-[30px] rounded-[100%] overflow-hidden [&>svg]:size-[30px]"
+                            >
+                                {el["logo"]}
+                            </button>
+                        </li>
+                    )
+                })
+            }
+        </ul>
     )
 }

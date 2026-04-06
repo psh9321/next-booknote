@@ -2,15 +2,20 @@
 
 import { SearchHead } from '@/widgets/SearchHead';
 import { SearchContents } from '@/widgets/SearchContents';
+import { Footer } from '@/widgets/Footer';
+
 
 const SearchPageView = () => {
 
     return (
         <>
             <h1 className="sr-only">도서 검색</h1>
-            <main className="w-[500px] h-full mx-auto py-[30px]">
-                <SearchHead/>
-                <SearchContents/>
+            <main className="w-[500px] h-full mx-auto py-[30px] [@media(max-width:520px)]:w-[calc(100%-30px)]">
+                <div className='pb-[80px]'>
+                    <SearchHead/>
+                    <SearchContents/>
+                </div>
+                <Footer/>
             </main>
         </>
     )
