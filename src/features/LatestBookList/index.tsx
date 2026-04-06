@@ -30,7 +30,7 @@ export const LatestBookList = () => {
     return (
         <ul className="space-y-[20px]">
             {
-                data.length > 0 ?
+                (data?.length ?? 0) > 0 ?
                 (data as BOOK_MODEL[])?.map((el, i) => {
                     return <li key={`인기도서-${el["bookTitle"]}-${i}`}>
                    <Link className="inline-flex justify-between select-none" href={`/book/${el["bookCode"]}`}>
