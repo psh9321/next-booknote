@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 import MyBookPageView from "./_view"
