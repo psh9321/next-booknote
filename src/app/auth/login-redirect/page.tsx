@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { Suspense, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { getCsrfToken } from "next-auth/react"
 
-export default function LoginRedirectPage() {
+function LoginRedirectContent() {
     const searchParams = useSearchParams()
     const provider = searchParams.get("provider")
     const callbackUrl = searchParams.get("callbackUrl") ?? "/"
@@ -26,5 +26,13 @@ export default function LoginRedirectPage() {
             <input type="hidden" name="csrfToken" defaultValue="" />
             <input type="hidden" name="callbackUrl" defaultValue={callbackUrl} />
         </form>
+    )
+}
+
+export default function LoginRedirectPage() {
+    return (
+        <Suspense>
+            <LoginRedirectContent />
+        </Suspense>
     )
 }
