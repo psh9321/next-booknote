@@ -1,4 +1,4 @@
-# Discover Exhibitions 
+# Booknote
 
 ## 책 을 검색하고 독서노트를 기록할수있는 사이트 입니다.
 
