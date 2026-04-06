@@ -49,10 +49,10 @@ jobs:
       NEXT_PUBLIC_QUERY_KEY_LATEST_BOOK_NOTE: ${{ secrets.NEXT_PUBLIC_QUERY_KEY_LATEST_BOOK_NOTE }}
       NEXT_PUBLIC_INDEXED_DB_NAME: ${{ secrets.NEXT_PUBLIC_INDEXED_DB_NAME }}
       NEXT_PUBLIC_INDEXED_DB_VERSION: ${{ secrets.NEXT_PUBLIC_INDEXED_DB_VERSION }}
-      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL || 'http://localhost:3000' }}
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
       DB_CONNECT_URL: ${{ secrets.DB_CONNECT_URL }}
-      ALADIN_API_URL: ${{ secrets.ALADIN_API_URL }}
+      ALADIN_API_URL: ${{ secrets.ALADIN_API_URL || 'http://localhost:3000' }}
       ALADIN_API_SECRET_KEY: ${{ secrets.ALADIN_API_SECRET_KEY }}
       NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
       NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
