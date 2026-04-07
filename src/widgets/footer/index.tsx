@@ -70,7 +70,7 @@ export const Footer = () => {
                             <User/>
                         }
                         {
-                            isLogin ? session.data?.user.name : "비 로그인"
+                            isLogin ? session.data?.user.name : "로그인"
                         }
                         </button>
                     </li>

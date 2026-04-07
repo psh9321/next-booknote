@@ -43,7 +43,10 @@ export const LatestBookNoteList = () => {
                 })
                 :
                 <li>
-                    <EmptyItem title="노트를 등록한 유저가 없습니다." txt="로그인 후 노트를 등록해보세요." anchorTxt="노트 등록할 책 찾기"/>
+                    {
+                        session.status === "authenticated" ? <EmptyItem title="등록한 노트가 없습니다." txt="노트를 등록해보세요." anchorTxt="노트 등록할 책 찾기"/>
+                        : <EmptyItem title="독서노트는 로그인후 등록 가능합니다." txt="로그인 후 노트를 등록해보세요." isAnchor={false}/>
+                    }
                 </li>
             }
         </ol>

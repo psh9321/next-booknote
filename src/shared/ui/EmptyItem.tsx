@@ -8,9 +8,10 @@ interface EMPTY_ITEM {
     className? : string,
     title : string,
     txt : string,
-    anchorTxt : string
+    anchorTxt? : string,
+    isAnchor? : boolean
 }
-export const EmptyItem = ({ className, title, txt, anchorTxt } : EMPTY_ITEM) => {
+export const EmptyItem = ({ className, title, txt, anchorTxt, isAnchor = true } : EMPTY_ITEM) => {
     return (
         <dl className={`leading-[2] text-center font-bold ${className??""}`}>
             <dt className="flex flex-col justify-center items-center">
@@ -18,9 +19,13 @@ export const EmptyItem = ({ className, title, txt, anchorTxt } : EMPTY_ITEM) => 
             </dt>
             <dd className="text-[0.8rem]">{txt}</dd>
             <dd>
-                <Link className="inline-block mt-[30px] border-b" href={"/search"}>
-                    "{anchorTxt}"
-                </Link>
+                {
+                    isAnchor && 
+                    <Link className="inline-block mt-[30px] border-b" href={"/search"}>
+                        "{anchorTxt}"
+                    </Link>
+                }
+                
             </dd>
         </dl>
     )
