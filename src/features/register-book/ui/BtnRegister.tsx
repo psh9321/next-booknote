@@ -18,7 +18,7 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
 
     const [ isMenu, SetIsMenu ] = useState(false);
 
-    const {  status : isLogin, data : session ,update } = useSession();
+    const { status : isLogin, data : session ,update } = useSession();
 
     const [currentStatus, SetCurrentStatus] = useState<READING_STATUS | "">(status??"");
 
@@ -43,6 +43,8 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
         const type  = self.dataset.readType as READING_STATUS;
 
         const params = GetBookItemModel(type);
+
+        console.log(params,"##")
 
         /** 등록한 상태 */
         if(currentStatus) {
