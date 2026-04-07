@@ -59,7 +59,7 @@ export const BestSellerCarouselList = () => {
                 {
                     (data as ALADIN.ALADIN_ITEM[]).map((el, i) => (
                         <SwiperSlide tag="li" key={`${JSON.stringify(el)}-${i}`}>
-                            <Link href={`/book/${el["isbn"]}`}>
+                            <Link scroll={false} href={`/book/${el["isbn"]}`}>
                                 <div className="relative aspect-[3/4]">
                                     <Image
                                         fill

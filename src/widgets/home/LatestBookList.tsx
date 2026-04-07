@@ -33,7 +33,7 @@ export const LatestBookList = () => {
                 (data?.length ?? 0) > 0 ?
                 (data as BOOK_MODEL[])?.map((el, i) => {
                     return <li key={`인기도서-${el["bookTitle"]}-${i}`}>
-                   <Link className="inline-flex justify-between select-none" href={`/book/${el["bookCode"]}`}>
+                   <Link scroll={false} className="inline-flex justify-between select-none" href={`/book/${el["bookCode"]}`}>
                             <div className="relative">
                                 <Image width={120} height={170} sizes="auto" src={el?.["bookCover"]!} alt={`${el["bookTitle"]} 커버 이미지`} loading="eager" className="rounded-[10px]"/>
                             </div>

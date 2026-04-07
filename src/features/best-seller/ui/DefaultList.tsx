@@ -16,7 +16,7 @@ export const BestSellerList = () => {
            {
                 (data as ALADIN.ALADIN_ITEM[]).map((el, i) => (
                     <li key={`${JSON.stringify(el)}-${i}`}>
-                        <Link className="flex justify-between" href={`/book/${el["isbn"]}`}>
+                        <Link scroll={false} className="flex justify-between" href={`/book/${el["isbn"]}`}>
                             <div className="relative w-[120px] h-[170px] [@media(max-width:520px)]:w-[90px] [@media(max-width:520px)]:h-[140px]">
                                 <Image fill sizes="auto" src={el["cover"]} alt={`${el["title"]} 커버 이미지`} loading="eager" className="object-cover rounded-[10px]"/>
                             </div>

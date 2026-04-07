@@ -28,7 +28,7 @@ export const LatestBookNoteList = () => {
                     <li key={`최근등록된 북노트-${el["bookTitle"]}-${i}`} className="relative w-full p-[20px] font-bold border rounded-[10px]">
                         <dl className='flex items-end mb-[20px] pb-[10px] text-[1.1rem] border-b select-none'>
                             <dt className="relative w-[40px] h-[40px] bg-[#f0f] rounded-[100%]">
-                                <Link href={`/book/${el["bookCode"]}`} className="relative block w-full h-full">
+                                <Link scroll={false} href={`/book/${el["bookCode"]}`} className="relative block w-full h-full">
                                     <Image src={el["bookCover"]??""} alt={`${el["bookTitle"]} 커버 이미지`} fill sizes="auto" className="object-cover rounded-[10px]" />
                                 </Link>
                             </dt>
