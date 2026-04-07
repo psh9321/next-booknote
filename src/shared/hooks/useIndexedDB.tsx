@@ -13,7 +13,7 @@ function KSTISOString(date: Date = new Date()): string {
 export const useIndexedDBHook = () => {
 
     function GetDB(): Promise<IDBPDatabase> {
-        return openDB(DB_NAME, Number(VERSION??1), {
+        return openDB(DB_NAME, VERSION, {
             upgrade(db) {
                 if (db.objectStoreNames.contains("book")) {
                     db.deleteObjectStore("book");

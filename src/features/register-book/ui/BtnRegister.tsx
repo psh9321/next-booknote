@@ -44,8 +44,6 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
 
         const params = GetBookItemModel(type);
 
-        console.log(params,"##")
-
         /** 등록한 상태 */
         if(currentStatus) {
 
