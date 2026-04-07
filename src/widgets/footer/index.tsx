@@ -13,8 +13,6 @@ import { House, User, Undo2 } from 'lucide-react';
 import { NavList } from '@/features/nav/ui/NavList';
 import { BeforeLogin } from '@/features/auth/ui/BeforeLogin';
 
-import { BtnProfile } from './ui/BtnProfile';
-
 export const Footer = () => {
 
     const pathname = usePathname();
@@ -32,20 +30,26 @@ export const Footer = () => {
             <div className='relative border-t border-t-[#2a2f32]'>
                 {
                     isProfile &&
-                    <article className='absolute flex justify-around leading-[2] items-center w-full h-full font-bold bg-[#0C1014] z-[2]'>
+                    <article className={`absolute flex justify-around leading-[2] items-center w-full h-full font-bold bg-[#0C1014] z-[2]`}>
                         <h2 className="sr-only">내정보</h2>
-                        <div>
-                            <p className='mt-[5px]'>등록한 책 : {session.data?.user.book??0}</p>
-                            <p>등록한 독서노트 : {session.data?.user.booknote??0}</p>
-                        </div>
                         {
                             isLogin ?
-                            <button className='border-b' onClick={() => signOut() }>로그아웃</button>
-                            :
+                            <>
+                                <div>
+                                    <p className='mt-[5px]'>등록한 책 : {session.data?.user.book??0}</p>
+                                    <p>등록한 독서노트 : {session.data?.user.booknote??0}</p>
+                                </div>                            
+                                <button className='border-b' onClick={() => signOut() }>로그아웃</button>
+                            </>
+                            : 
+                            <>
+                            <p className='[@media(max-width:499px)]:text-[0.75rem]'>로그인 후 더 많은 서비스를 이용해보세요.</p>
                             <div>
-                                <p>로그인</p>
-                                <BeforeLogin/>
+                                <p className='mb-[5px] text-[0.9rem]'>로그인</p>
+                                 <BeforeLogin/>
                             </div>
+                            </>
+
                         }
 
                         <button onClick={() => SetIsProfile(false)} className='absolute top-[10px] right-[10px]'><Undo2/></button>

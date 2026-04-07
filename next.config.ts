@@ -40,12 +40,8 @@ const nextConfig: NextConfig = {
         hostname : "phinf.pstatic.net"
       },
       {
-        protocol : "https",
-        hostname : "http://k.kakaocdn.net"
-      },
-      {
         protocol : "http",
-        hostname : "http://k.kakaocdn.net"
+        hostname : "*.kakaocdn.net",
       }
     ]
   }

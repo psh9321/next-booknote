@@ -20,7 +20,7 @@ export async function API_GET_LATEST_ADD_BOOK() {
     }
 }
 
-export async function API_REGISTER_BOOK(item: BOOK_MODEL) {
+export async function API_REGISTER_BOOK(item: Partial<BOOK_MODEL>) {
     try {
         const userId = await GetSessionId();
 
@@ -30,6 +30,7 @@ export async function API_REGISTER_BOOK(item: BOOK_MODEL) {
 
         revalidatePath("/");
         revalidatePath("/book/[bookcode]", "page");
+        revalidatePath("/my/[status]");
     }
     catch (err) {
         console.log(err);

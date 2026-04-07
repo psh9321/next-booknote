@@ -1,14 +1,15 @@
 "use client"
 
-import Link from "next/link";
 import { usePathname } from "next/navigation"
 
 import { useLayoutEffect, useRef } from "react"
 
+import { NavListItem } from "./NavListItem";
+
 const opts = [
-    { title : "읽는 중", path : "/my/read" },
-    { title : "완독 도서", path : "/my/completed"},
-    { title : "읽고 싶은 책", path : "/my/wish"},
+    { title : "읽는 중", path : "/my/read", status : "READ" as const },
+    { title : "완독 도서", path : "/my/completed", status : "COMPLETED" as const },
+    { title : "읽고 싶은 책", path : "/my/wish", status : "WISH" as const },
 ];
 
 export const MyPageNavList = () => {
@@ -60,19 +61,13 @@ export const MyPageNavList = () => {
             <ul ref={listWrapper} className="relative order-first flex justify-center items-center gap-[30px] my-[20px]">
                 {
                     opts.map((el, i) => {
-                        return <li key={`${el["title"]}-${el["path"]}-${i}`}>
-                            <Link
-                                className="relative h-[40px] leading-[40px] text-[1.2rem] font-bold"
-                                href={el["path"]}
-                                ref={ref => { if(ref)anchorRef["current"][i] = ref } }
-                            >
-                                {el["title"]}
-                            </Link>
-                        </li>
+                        return <NavListItem ref={ref => { if(ref)anchorRef["current"][i] = ref } } key={`${el["title"]}-${el["path"]}-${i}`} item={el} />
                     })
                 }
                 <li ref={targetBackgroundRef} className={"absolute bottom-[0] left-[0] h-[3px] bg-[#fff] transition-all rounded-[10px]"}></li>
             </ul>
+
+            {/* <SyncList status="WISH"/> */}
         </nav>
     )
 }

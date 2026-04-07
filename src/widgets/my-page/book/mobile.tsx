@@ -1,9 +1,14 @@
 "use client"
 
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+
 import { AddBookNote } from "@/features/book-note/ui/AddBookNote";
 import { BookNoteList } from "@/features/book-note/ui/BookNoteList";
+
 import { MyPageBookInfo } from "@/features/book-info/ui/MyPageBookInfo"
-import { useState } from "react";
+
+import { BeforLoginLayer } from "@/shared/ui/BeforLoginLayer";
 
 interface MY_BOOK_PAGE_MOBILE {
     bookcode : string,
@@ -13,6 +18,8 @@ interface MY_BOOK_PAGE_MOBILE {
 export const MyBookPageMobile = ({ bookcode, status } : MY_BOOK_PAGE_MOBILE) => {
 
     const [currentChapter, SetCurrentChapter] = useState<0 | 1>(0);
+
+    const { status : isLogin } = useSession();
 
     function ChapterMoveCallback(e : React.UIEvent<HTMLButtonElement>) {
 
@@ -36,12 +43,15 @@ export const MyBookPageMobile = ({ bookcode, status } : MY_BOOK_PAGE_MOBILE) => 
                     </section>
                     <section className="shrink-0 relative w-full h-full overflow-y-auto">
                         <h2 className="sr-only">해당 도서 독서노트</h2>
+                        {
+                            isLogin === "unauthenticated" && <BeforLoginLayer/>
+                        }
                         <div className="sticky top-[0] p-[20px] z-[1] bg-[#2A2F32]">
                             <AddBookNote bookcode={bookcode}/>
                         </div>
                         <div className="max-h-[calc(100%-64px)] mt-[20px] px-[20px]">
                             <BookNoteList bookcode={bookcode} />
-                        </div>
+                        </div>   
                     </section>
                 </div>
             </main>

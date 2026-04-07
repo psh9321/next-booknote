@@ -2,10 +2,6 @@
 
 import Image from "next/image"
 
-import { useRouter } from "next/navigation";
-
-import { ChevronLeft } from 'lucide-react';
-
 import { useBookInfoHook } from "@/entities/book/hooks/useBookInfoHook";
 
 import { BtnRegister } from "@/features/register-book/ui/BtnRegister";
@@ -19,18 +15,11 @@ interface MY_PAGE_BOOK_INFO {
 export const MyPageBookInfo = ({ bookcode, status } : MY_PAGE_BOOK_INFO) => {
     const { data } = useBookInfoHook(bookcode);
 
-    const navigation = useRouter();
-
-    function NaviCallback() {
-        window.history.length > 1 ? navigation.back() : navigation.push("/my/read");
-    }
-
     if(!data) return <></>
 
     return (
         <article className="relative">
             <h2 className="sr-only">{data?.["title"]} 정보</h2>
-            <button title="뒤로가기" onClick={NaviCallback} className="absolute top-0 left-0"><ChevronLeft size={45}/></button>
             <div className="inline-block mb-[20px]">
                 <div className="flex items-end mb-[15px]">
                     <Image loading="eager" width={150} height={220} sizes="auto" src={data?.["cover"]??""} alt={`${data?.["title"]} 커버 이미지`} />

@@ -1,73 +1,124 @@
+"use client"
 
 import { openDB, IDBPDatabase } from "idb";
-import { useCallback } from "react";
-
-function GenerateId(): string {
-    return `${Date.now()}-${crypto.randomUUID()}`;
-}
-
-function DateNow(): string {
-    return new Date().toISOString();
-}
-
 
 const DB_NAME = String(process.env.NEXT_PUBLIC_INDEXED_DB_NAME);
 const VERSION = Number(process.env.NEXT_PUBLIC_INDEXED_DB_VERSION);
+
+function KSTISOString(date: Date = new Date()): string {
+    const KST_OFFSET = 9 * 60 * 60 * 1000;
+    return new Date(date.getTime() + KST_OFFSET).toISOString().replace("Z", "+09:00");
+}
 
 export const useIndexedDBHook = () => {
 
     function GetDB(): Promise<IDBPDatabase> {
         return openDB(DB_NAME, VERSION, {
             upgrade(db) {
-                if (!db.objectStoreNames.contains("book")) {
-                    db.createObjectStore("book", { keyPath: "_id" });
+                if (db.objectStoreNames.contains("book")) {
+                    db.deleteObjectStore("book");
                 }
-                // if (!db.objectStoreNames.contains("booknote")) {
-                //     const noteStore = db.createObjectStore("booknote", { keyPath: "_id" });
-                //     noteStore.createIndex("recordId", "recordId");
-                // }
+                db.createObjectStore("book", { keyPath: "bookTitle" });
             },
         });
     }
 
-    const GetReadBook = useCallback(async () => {
+    async function GetTargetBookStatus(bookTitle : string) {
         const db = await GetDB();
-        const all = await db.getAll("book");
-        return all.filter((item) => item.status === "READ");
-    }, []);
+        const bookInfo = await db.get("book", bookTitle);
 
-    const GetLatestWishBook = useCallback(async () => {
-        const db = await GetDB();
-        const all = await db.getAll("book");
-        return all.filter((item) => item.status === "WISH").slice(0,2)??[];
-    },[])
-
-    async function AddBook(item : ALADIN.ALADIN_ITEM) {
-
-        const db = await GetDB();
-
-        const obj = {
-            _id: "69ce36ae86a862b5f6a918b4",
-            bookTitle: "환상서점 2 - 긴 밤이 될 겁니다",
-            bookCover: "https://image.aladin.co.kr/product/36771/84/cover150/k502030590_1.jpg",
-            bookCode: "K502030590",
-            bookAuthor : "소서림 (지은이)",
-            bookPublisher : "해피북스투유",
-            bookCategory: "국내도서>소설/시/희곡>판타지/환상문학>한국판타지/환상소설",
-            status : "WISH",
-            startDate : "2026-02-03T09:12:46.302Z",
-            endDate : "",
-            currentPage : null,
-            totalPage : 312,
-            createAt : "2026-01-22T14:00:00.000Z",
-            updateAt : "2026-01-22T14:00:00.000Z",
-        }
-
-        const transtion = db.transaction(["book"], "readwrite");
-        const store = transtion.objectStore("book");
-
-        await store.put(obj);
+        return bookInfo?.["status"]??""
     }
 
-    return { AddBook, GetReadBook, GetLatestWishBook }
+    async function GetBookList(status : READING_STATUS) {
+        const db = await GetDB();
+        const all = await db.getAll("book");
+
+        return all.filter(item => item.status === status)??[];
+    }
+
+    async function BookAdd(item: Partial<BOOK_MODEL>, bookTitle : string, userId?: string) {
+        const db = await GetDB();
+
+        const existing = await db.get("book", bookTitle);
+
+        if (existing) {
+            if (userId) {
+                const sync: string[] = existing.sync ?? [];
+                if (!sync.includes(userId)) {
+                    sync.push(userId);
+                }
+                await db.put("book", { 
+                    ...existing, 
+                    createAt : KSTISOString(),
+                    sync 
+                });
+            }
+        } else {
+            await db.put("book", {
+                ...item,
+                createAt : KSTISOString(),
+                sync: userId ? [userId] : [],
+            });
+        }
+    }
+
+    async function BookUpdate(item : Partial<BOOK_MODEL>, status : READING_STATUS, userId? : string) {
+        const db = await GetDB();
+        const existing = await db.get("book", item["bookTitle"]!);
+
+        /** 기존에 데이터가 있는 경우 */
+        if(existing) {
+            existing.status = status;
+
+            await db.put("book", existing);
+        }
+        else {
+            item["status"] = status;
+
+            await db.put("book", {
+                ...item,
+                updateAt : KSTISOString(),
+                sync: userId ? [userId] : [],
+            });
+        }
+    }
+
+    async function AfterLoginBookDelete(bookTitle : string, userId : string) {
+        const db = await GetDB();
+        
+        const existing = await db.get("book", bookTitle);
+
+        if (!existing) return;
+
+        const sync = (existing["sync"] as string[]).filter(el => el !== userId);
+
+        await db.put("book", { ...existing, sync });
+    }
+
+    async function BeforeLoginBookDelete(bookTitle : string) {
+        const db = await GetDB();
+        await db.delete("book", bookTitle);
+    }
+
+    async function SyncBookData(bookTitleArr : string[], userId : string, status : READING_STATUS) {
+        const db = await GetDB();
+        const all = await db.getAll("book");
+
+        for(const item of all) {
+            if(item["status"] !== status) continue;
+            if(!bookTitleArr.includes(item["bookTitle"])) continue;
+
+            const sync: string[] = item["sync"] ?? [];
+
+            if(sync.includes(userId)) continue;
+
+            sync.push(userId);
+
+            await db.put("book", { ...item, sync });
+        }
+
+    }
+
+    return { BookAdd, GetTargetBookStatus, BookUpdate, AfterLoginBookDelete, BeforeLoginBookDelete, GetBookList, SyncBookData }
 }
