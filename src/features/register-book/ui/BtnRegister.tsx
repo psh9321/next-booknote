@@ -66,18 +66,18 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
 
     return (
         <>
-            <div className="relative inline-flex text-[1.1rem] rounded-[10px] overflow-hidden [&>button]:h-[35px] [&>button]:leading-[35px] [@media(max-width:499px)]:justify-center">
+            <div className="relative inline-flex text-[1.1rem] overflow-hidden [&>button]:h-[35px] [&>button]:leading-[35px] [@media(max-width:499px)]:justify-center">
                 {
                     currentStatus ?
-                    <button onClick={() => SetIsMenu(true)} className='flex justify-center items-center gap-[5px] w-[150px] [&>svg]:size-[18px] bg-[#3b82f6]'>
+                    <button onClick={() => SetIsMenu(true)} className='flex justify-center items-center gap-[5px] w-[150px] bg-[#3b82f6] rounded-[10px] [&>svg]:size-[18px]'>
                         { currentStatus === "READ" && <>읽는중 <BookOpen/></> }
                         { currentStatus === "WISH" && <>읽고 싶은 책 <BookMarked/></> }
                         { currentStatus === "COMPLETED" && <>완독 <CheckCircle/></> }
                     </button>
                     :
                     <>
-                        <button data-read-type="WISH" onClick={RegisterCallback} className="w-[78px] px-[8px] bg-[#3b82f6]">읽고싶은</button>
-                        <button onClick={() => SetIsMenu(true)} className="px-[6px] bg-[#3b82f6] border-l border-[#fff]"><BookPlus size={20} /></button>
+                        <button data-read-type="WISH" onClick={RegisterCallback} className="w-[78px] px-[8px] bg-[#3b82f6] rounded-[10px_0_0_10px]">읽고싶은</button>
+                        <button onClick={() => SetIsMenu(true)} className="px-[6px] bg-[#3b82f6] border-l border-[#fff]  rounded-[0_10px_10px_0]"><BookPlus size={20} /></button>
                     </>
                 }
                 {

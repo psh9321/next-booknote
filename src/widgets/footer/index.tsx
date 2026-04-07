@@ -32,7 +32,7 @@ export const Footer = () => {
             <div className='relative border-t border-t-[#2a2f32]'>
                 {
                     isProfile &&
-                    <article className='absolute flex justify-around leading-[2] items-center w-full h-full font-bold bg-[#0C1014]'>
+                    <article className='absolute flex justify-around leading-[2] items-center w-full h-full font-bold bg-[#0C1014] z-[2]'>
                         <h2 className="sr-only">내정보</h2>
                         <div>
                             <p className='mt-[5px]'>등록한 책 : {session.data?.user.book??0}</p>
