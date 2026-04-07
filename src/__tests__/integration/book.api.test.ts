@@ -15,6 +15,10 @@ const mockBookModel = vi.hoisted(() => ({
     countDocuments: vi.fn(),
 }));
 
+const mockBookNoteModel = vi.hoisted(() => ({
+    deleteMany: vi.fn(),
+}));
+
 // next/cache 모킹
 vi.mock("next/cache", () => ({
     revalidatePath: vi.fn(),
@@ -38,6 +42,10 @@ vi.mock("@/shared/lib/connectDB", () => ({
 vi.mock("@/entities/book/model/book.schema", () => ({
     BookModel: mockBookModel,
     BookSchema: {},
+}));
+
+vi.mock("@/entities/book-note/model/booknote.schema", () => ({
+    BookNoteModel: mockBookNoteModel,
 }));
 
 import { getServerSession } from "next-auth/next";
@@ -181,6 +189,7 @@ describe("Book API", () => {
                 user: { id: "user123" },
             });
             mockBookModel.deleteOne.mockResolvedValue({ deletedCount: 1 });
+            mockBookNoteModel.deleteMany.mockResolvedValue({ deletedCount: 0 });
 
             await API_REGISTER_BOOK_DELETE("isbn123");
 
@@ -188,6 +197,43 @@ describe("Book API", () => {
                 userId: "user123",
                 bookCode: "isbn123",
             });
+        });
+
+        it("도서 삭제 시 관련 독서노트도 함께 삭제해야 한다", async () => {
+            (getServerSession as ReturnType<typeof vi.fn>).mockResolvedValue({
+                user: { id: "user123" },
+            });
+            mockBookModel.deleteOne.mockResolvedValue({ deletedCount: 1 });
+            mockBookNoteModel.deleteMany.mockResolvedValue({ deletedCount: 3 });
+
+            await API_REGISTER_BOOK_DELETE("isbn123");
+
+            expect(mockBookNoteModel.deleteMany).toHaveBeenCalledWith({
+                userId: "user123",
+                bookCode: "isbn123",
+            });
+        });
+
+        it("도서와 독서노트 삭제가 동시에 실행되어야 한다 (Promise.all)", async () => {
+            (getServerSession as ReturnType<typeof vi.fn>).mockResolvedValue({
+                user: { id: "user123" },
+            });
+            const deleteOneOrder: string[] = [];
+            const deleteManyOrder: string[] = [];
+
+            mockBookModel.deleteOne.mockImplementation(async () => {
+                deleteOneOrder.push("deleteOne");
+                return { deletedCount: 1 };
+            });
+            mockBookNoteModel.deleteMany.mockImplementation(async () => {
+                deleteManyOrder.push("deleteMany");
+                return { deletedCount: 2 };
+            });
+
+            await API_REGISTER_BOOK_DELETE("isbn123");
+
+            expect(mockBookModel.deleteOne).toHaveBeenCalledTimes(1);
+            expect(mockBookNoteModel.deleteMany).toHaveBeenCalledTimes(1);
         });
     });
 

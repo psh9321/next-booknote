@@ -6,12 +6,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // vi.hoisted로 모킹 객체를 호이스팅 전에 선언
-const mockBookNoteModel = vi.hoisted(() => ({
-    find: vi.fn(),
-    create: vi.fn(),
-    updateOne: vi.fn(),
-    deleteOne: vi.fn(),
-    countDocuments: vi.fn(),
+const { mockBookNoteModel, mockBookModel } = vi.hoisted(() => ({
+    mockBookNoteModel: {
+        find: vi.fn(),
+        create: vi.fn(),
+        updateOne: vi.fn(),
+        deleteOne: vi.fn(),
+        countDocuments: vi.fn(),
+    },
+    mockBookModel: {
+        findOne: vi.fn(),
+    },
 }));
 
 // ConnectDB 모킹
@@ -22,6 +27,10 @@ vi.mock("@/shared/lib/connectDB", () => ({
 vi.mock("@/entities/book-note/model/booknote.schema", () => ({
     BookNoteModel: mockBookNoteModel,
     BookNoteSchema: {},
+}));
+
+vi.mock("@/entities/book/model/book.schema", () => ({
+    BookModel: mockBookModel,
 }));
 
 import {
@@ -211,6 +220,7 @@ describe("BookNote API", () => {
                 bookTitle: "테스트 책",
                 noteContents: "노트 내용",
             };
+            mockBookModel.findOne.mockResolvedValue({ bookCode: "isbn123" });
             mockBookNoteModel.create.mockResolvedValue(newNote);
 
             await API_ADD_MY_BOOK_NOTE(newNote);
@@ -220,8 +230,18 @@ describe("BookNote API", () => {
             );
         });
 
+        it("도서 정보가 없으면 403을 반환해야 한다", async () => {
+            mockBookModel.findOne.mockResolvedValue(null);
+
+            const result = await API_ADD_MY_BOOK_NOTE({ userId: "user123", bookCode: "isbn999" });
+
+            expect(result).toBe(403);
+            expect(mockBookNoteModel.create).not.toHaveBeenCalled();
+        });
+
         it("부분 데이터로도 노트를 생성할 수 있어야 한다", async () => {
             const partialNote = { userId: "user123", noteContents: "내용" };
+            mockBookModel.findOne.mockResolvedValue({ bookCode: "isbn123" });
             mockBookNoteModel.create.mockResolvedValue(partialNote);
 
             await API_ADD_MY_BOOK_NOTE(partialNote);
@@ -230,9 +250,8 @@ describe("BookNote API", () => {
         });
 
         it("DB 에러 발생 시 에러를 던져야 한다", async () => {
-            mockBookNoteModel.create.mockRejectedValue(
-                new Error("생성 실패"),
-            );
+            mockBookModel.findOne.mockResolvedValue({ bookCode: "isbn123" });
+            mockBookNoteModel.create.mockRejectedValue(new Error("생성 실패"));
 
             await expect(
                 API_ADD_MY_BOOK_NOTE({ userId: "user123" }),
