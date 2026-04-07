@@ -59,10 +59,13 @@ export const BookNoteItem = ({ item, RefetchCallback } : BOOK_NOTE_ITEM) => {
     function DeleteSubmitCallback() {
         API_DELETE_MY_BOOK_NOTE(item["userId"] as string, deleteId)
         .then(async () => {
+
+            const newBookNoteLength = (session?.user.booknote??0) - 1;
+
             RefetchCallback?.();
             update({
                 user : {
-                    booknote : (session?.user.booknote ?? 0) - 1
+                    booknote : newBookNoteLength < 0 ? 0 : newBookNoteLength
                 }
             });
         })

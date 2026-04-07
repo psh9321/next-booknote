@@ -79,7 +79,7 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
             await API_REGISTER_BOOK_DELETE(item["isbn"]);
             await AfterLoginBookDelete(item["title"], session?.user.id);
 
-            const newBookLength = (session?.user.book??0) - 1
+            const newBookLength = (session?.user.book??0) - 1;
 
             update({
                 user : {
