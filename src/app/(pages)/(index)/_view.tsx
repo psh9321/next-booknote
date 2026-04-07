@@ -1,7 +1,12 @@
 "use client"
 
+import Link from "next/link"
+
 import { useEffect, useState } from "react"
+
 import useMediaQuery from "@parksuhyun9321/use-media-query"
+
+import { Search } from "lucide-react"
 
 import { BestSellerCarouselList } from "@/features/best-seller/ui/CarouselList"
 import { LatestBookList } from "@/widgets/home/LatestBookList"
@@ -41,7 +46,10 @@ const IndexPageView = () => {
                         </div>
                     </section>
                     <section className="mt-[50px]">
-                        <h3 className="mb-[20px] font-[700] text-[1.2rem] select-none">최근 유저들이 등록한 도서</h3>
+                        <h3 className="flex justify-between items-center mb-[20px] font-[700] text-[1.2rem] select-none [@media(max-width:499px)]:flex-col [@media(max-width:499px)]:justify-start [@media(max-width:499px)]:items-start [@media(max-width:499px)]:gap-[10px]">
+                            최근 유저들이 등록한 도서
+                            <Link className="flex items-center p-[2.5px_8px] text-[0.8rem] bg-[#3b82f6] rounded-[10px]" href={"/search"}><Search className="mr-[5px]" size={15} /> 등록할책 찾아보기</Link>
+                        </h3>
                         <div className="relative min-h-[340px] py-[40px] px-[20px] bg-[#2A2F32] rounded-[10px]">
                             <LatestBookList/>
                         </div>
