@@ -1,19 +1,15 @@
 import { Portal } from "./Portal"
 
-export const Confirm = ({ 
+export const Alert = ({
     title, 
     contents, 
     cancelBtnTxt, 
-    submitBtnTxt, 
     cancelCallback, 
-    submitCallback 
 } : {
     title : string,
     contents : string,
     cancelBtnTxt? : string,
-    submitBtnTxt? : string,
     cancelCallback : () => void
-    submitCallback : () => void
 }) => {
     return (
         <Portal>
@@ -24,12 +20,10 @@ export const Confirm = ({
                         <dd className="text-[0.9rem] [@media(max-width:499px)]:text-[0.7rem]" dangerouslySetInnerHTML={{__html : contents}}></dd>
                     </dl>
                     <ul className="flex justify-center mt-[30px] gap-[10px] [&>li>button]:p-[5px_15px] [&>li>button]:border [&>li>button]:rounded-[5px] [@media(max-width:499px)]:[&>li>button]:text-[0.8rem]">
-                        <li><button onClick={cancelCallback} >{cancelBtnTxt??"취소"}</button></li>
-                        <li><button onClick={submitCallback}>{submitBtnTxt??"확인"}</button></li>
+                        <li><button onClick={cancelCallback}>{cancelBtnTxt??"확인"}</button></li>
                     </ul>
                 </div>
             </div>
         </Portal>
-
     )
 }

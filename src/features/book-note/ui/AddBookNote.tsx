@@ -1,12 +1,13 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 
 import TextareaAutosize from "react-textarea-autosize";
 import { API_ADD_MY_BOOK_NOTE } from "@/entities/book-note/api/booknote";
+import { Alert } from "@/shared/ui/Alert";
 
 interface ADD_BOOK_NOTE {
     bookcode : string
@@ -15,6 +16,8 @@ interface ADD_BOOK_NOTE {
 export const AddBookNote = ({ bookcode } : ADD_BOOK_NOTE) => {
 
     const { data : session, update } = useSession();
+
+    const [isAlert, SetIsAlert] = useState(false);
 
     const queryClient = useQueryClient();
 
@@ -41,7 +44,10 @@ export const AddBookNote = ({ bookcode } : ADD_BOOK_NOTE) => {
         }
 
         API_ADD_MY_BOOK_NOTE(item)
-        .then(() => {
+        .then((rs) => {
+
+            if(rs !== 200) return SetIsAlert(true);
+
             queryClient.refetchQueries({queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE, item["userId"], item["bookCode"]]});
             textarea.value = "";
 
@@ -62,6 +68,10 @@ export const AddBookNote = ({ bookcode } : ADD_BOOK_NOTE) => {
 
     return (
         <>
+            {
+                isAlert && <Alert title="책을 등록해주세요."  contents="'읽고싶은'<br/>'읽고 있는'<br/>'완독'<br/> 등록된 도서만 노트작성이 가능합니다." cancelCallback={() => SetIsAlert(false)}/>
+            }
+            
             <article>
                 <h2 className="sr-only">독서노트 textarea</h2>
                 <TextareaAutosize placeholder={`"${bookInfo["title"]}" 에 관한 \n 노트를 기록해보세요.`} ref={textareaRef} className="w-full min-h-[100px] p-[10px] border rounded-[6px] [&::placeholder]:text-[0.8rem] [&::placeholder]:break-keep"/>

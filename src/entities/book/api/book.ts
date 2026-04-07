@@ -4,6 +4,8 @@ import { ConnectDB } from "@/shared/lib/connectDB";
 import { GetSessionId } from "@/shared/lib/getSessionId";
 
 import { BookModel } from "../model/book.schema";
+import { BookNoteModel } from "@/entities/book-note/model/booknote.schema";
+
 import { revalidatePath } from "next/cache";
 
 export async function API_GET_LATEST_ADD_BOOK() {
@@ -76,9 +78,10 @@ export async function API_REGISTER_BOOK_DELETE(bookCode: string) {
 
         if (!userId) throw new Error("로그인이 필요합니다.");
 
-        await ConnectDB(async () => {
-            await BookModel.deleteOne({ userId, bookCode });
-        });
+        await ConnectDB(async () => Promise.all([
+            BookModel.deleteOne({ userId, bookCode }),
+            BookNoteModel.deleteMany({ userId, bookCode })
+        ]));
     }
     catch (err) {
         console.log(err);

@@ -1,9 +1,11 @@
 "use server"
 
+import type { InferSchemaType } from "mongoose";
+
 import { ConnectDB } from "@/shared/lib/connectDB";
 
+import { BookModel } from "@/entities/book/model/book.schema";
 import { BookNoteModel, BookNoteSchema } from "../model/booknote.schema";
-import type { InferSchemaType } from "mongoose";
 
 type BookNoteInput = InferSchemaType<typeof BookNoteSchema>;
 
@@ -78,7 +80,17 @@ export async function API_DELETE_MY_BOOK_NOTE(userId : string, _id : string) {
 
 export async function API_ADD_MY_BOOK_NOTE(params : Partial<BookNoteInput>) {
     try {
-      await ConnectDB(async () => BookNoteModel.create({...params})   )
+      return await ConnectDB(async () => {
+
+        const bookInfo = await BookModel.findOne({ userId : params["userId"], bookCode : params["bookCode"] });
+
+        if(!bookInfo) return 403
+
+        await BookNoteModel.create({...params})
+
+        return 200
+
+      })
     }
     catch(err) {
         console.log(err);
