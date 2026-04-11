@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./style.css";
 import QueryProvider from "@/providers/QueryProvider";
 import SessionProvider from "@/providers/SessionProvider";
+import { LoadingView } from "@/shared/ui/loadingView";
 
 export const metadata: Metadata = {
     metadataBase: new URL("https://next-booknote.vercel.app"),
@@ -41,6 +42,7 @@ const RootLayout = ({ children } : LAYOUT_CHILD) => {
                     <div id="portal-root"></div>
                   </QueryProvider>
             </SessionProvider>
+            <LoadingView/>
         </body>
         </html>
     )

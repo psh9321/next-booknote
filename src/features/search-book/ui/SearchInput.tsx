@@ -1,12 +1,15 @@
 "use client"
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+
+import { useShallow } from 'zustand/shallow';
 
 import { CircleX } from 'lucide-react';
 
-import { useSearchStore } from '../model/useSearchStore';
-import { useShallow } from 'zustand/shallow';
 import { useSearchBookHook } from '../hooks/useSearchBookHook';
+
+import { useSearchStore } from '../store/useSearchStore';
+import { useLoadingStore } from "@/shared/store/useLoadingStore";
 
 interface SEARCH_BOX {
     className? : string
@@ -19,7 +22,9 @@ export const SearchInput = ({ className } : SEARCH_BOX) => {
         SetKeyword : state.SetKeyword
     })));
 
-    useSearchBookHook(keyword ?? "");
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
+
+    const { isFetching } = useSearchBookHook(keyword ?? "");
 
     const debounceTimer = useRef<NodeJS.Timeout | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -43,6 +48,8 @@ export const SearchInput = ({ className } : SEARCH_BOX) => {
         inputRef["current"].value = "";
         SetKeyword(null);
     }
+
+    useEffect(() => SetLoadingStatus(isFetching ? "search" : ""),[isFetching]);
 
     return (
         <>

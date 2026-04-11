@@ -13,6 +13,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { useBestSellerHook } from "@/entities/book/hooks/useBestSellerHook";
 
+import { BookInfoLink } from "@/shared/ui/BookInfoLink";
+
 export const BestSellerCarouselList = () => {
 
     const { data, isError } = useBestSellerHook();
@@ -59,7 +61,7 @@ export const BestSellerCarouselList = () => {
                 {
                     (data as ALADIN.ALADIN_ITEM[]).map((el, i) => (
                         <SwiperSlide tag="li" key={`${JSON.stringify(el)}-${i}`}>
-                            <Link scroll={false} href={`/book/${el["isbn"]}`}>
+                            <BookInfoLink href={`/book/${el["isbn"]}`}>
                                 <div className="relative aspect-[3/4]">
                                     <Image
                                         fill
@@ -70,7 +72,7 @@ export const BestSellerCarouselList = () => {
                                         className="rounded-[10px] object-cover"
                                     />
                                 </div>
-                            </Link>
+                            </BookInfoLink>
                         </SwiperSlide>
                     ))
                 }

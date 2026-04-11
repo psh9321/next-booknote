@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { API_CLIENT_GET_SEARCH_BOOK } from "@/features/search-book/api/api.search.book";
 
 export const useSearchBookHook = (keyword : string) => {
-    const { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    const { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage, isRefetching } = useInfiniteQuery({
         queryKey : ["search", keyword],
         queryFn : async ({pageParam}) => {
             const result = await API_CLIENT_GET_SEARCH_BOOK(keyword!, Number(pageParam??1), 10);

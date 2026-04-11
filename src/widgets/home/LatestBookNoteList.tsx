@@ -12,6 +12,7 @@ import { useLatestBookNoteHook } from "@/entities/book-note/hooks/useLatestBookN
 import { EmptyItem } from "@/shared/ui/EmptyItem"
 import { DateFormat } from "@/shared/util/dateFormat";
 import { useSession } from "next-auth/react";
+import { BookInfoLink } from "@/shared/ui/BookInfoLink";
 
 export const LatestBookNoteList = () => {
 
@@ -28,9 +29,9 @@ export const LatestBookNoteList = () => {
                     <li key={`최근등록된 북노트-${el["bookTitle"]}-${i}`} className="relative w-full p-[20px] font-bold border rounded-[10px]">
                         <dl className='flex items-end mb-[20px] pb-[10px] text-[1.1rem] border-b select-none'>
                             <dt className="relative w-[40px] h-[40px] bg-[#f0f] rounded-[100%]">
-                                <Link scroll={false} href={`/book/${el["bookCode"]}`} className="relative block w-full h-full">
+                                <BookInfoLink href={`/book/${el["bookCode"]}`} className="relative block w-full h-full">
                                     <Image src={el["bookCover"]??""} alt={`${el["bookTitle"]} 커버 이미지`} fill sizes="auto" className="object-cover rounded-[10px]" />
-                                </Link>
+                                </BookInfoLink>
                             </dt>
                             <dd className="ml-[10px] text-[0.8rem]">{DateFormat(el?.["createAt"].toString())} 등록</dd>
                             <dd className="absolute top-[20px] right-[20px]">

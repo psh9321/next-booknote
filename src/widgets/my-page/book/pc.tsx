@@ -18,7 +18,7 @@ export const MyBookPagePC = ({bookcode, status} : MY_BOOK_PAGE_PC) => {
     const { status : isLogin } = useSession();
 
     return (
-        <main className="flex justify-between h-[calc(100dvh-210px)] p-[20px] bg-[#2A2F32] rounded-[10px]">
+        <main className="flex justify-between min-h-[calc(100dvh-210px)] p-[20px] bg-[#2A2F32]">
             <section className="sticky top-[120px] self-start block w-[400px] h-full text-center">
                 <h2 className="sr-only">해당 도서 정보</h2>
                 <MyPageBookInfo bookcode={bookcode} status={status}/>
@@ -28,10 +28,10 @@ export const MyBookPagePC = ({bookcode, status} : MY_BOOK_PAGE_PC) => {
                 {
                     isLogin === "unauthenticated" && <BeforLoginLayer className="rounded-[5px]"/>
                 }
-                <div className="sticky top-[100px] self-start w-full mt-[-20px] pt-[20px] z-2">
+                <div className="sticky top-[100px] self-start w-full mt-[-20px] pt-[20px] bg-[#2a2f32] z-2">
                     <AddBookNote bookcode={bookcode}/>
                 </div>
-                <div className="mt-[50px]">
+                <div className="mt-[50px] pb-[80px]">
                     <BookNoteList bookcode={bookcode} />
                 </div>
             </section>

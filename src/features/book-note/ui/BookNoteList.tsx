@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import { useMyBookNoteHook } from "../hooks/useMyBookNoteHook";
 
 import { useInterSectionObserver } from "@/shared/hooks/useInterSectionObserver";
+
+import { useLoadingStore } from "@/shared/store/useLoadingStore";
+
 import { BookNoteItem } from "./BookNoteItem";
 
 interface BOOK_NOTE_LIST {
@@ -16,11 +19,13 @@ export const BookNoteList = ({ bookcode } : BOOK_NOTE_LIST) => {
 
     const session = useSession();
 
-    const { data, isFetching, fetchNextPage, hasNextPage, refetch } = useMyBookNoteHook(session.data?.user.id as string, bookcode);
+    const { data, isFetching, fetchNextPage, hasNextPage, refetch, isRefetching } = useMyBookNoteHook(session.data?.user.id as string, bookcode);
 
     const { ref, isView } = useInterSectionObserver<HTMLLIElement>({
         threshold : 0
-    })
+    });
+
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
 
     const isEmpty = (data?.pages as CLIENT_API.BOOK_ITEM_LIST_RESPONSE[])[0]?.total <= 0;
 
@@ -30,11 +35,20 @@ export const BookNoteList = ({ bookcode } : BOOK_NOTE_LIST) => {
         if(isEmpty) return;
         if(!hasNextPage) return;
 
+        console.log("????")
         fetchNextPage();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[isView]);
 
+    useEffect(() => {
+        SetLoadingStatus(isFetching ? "booknote-fetch" : "");
+    },[isFetching, SetLoadingStatus]);
 
+
+
+    useEffect(() => {
+        if(!isRefetching) SetLoadingStatus("");
+    },[isRefetching, SetLoadingStatus])
 
     return (
         <article>

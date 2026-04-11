@@ -19,11 +19,11 @@ export const MyInfoBox = () => {
 
     return (
         <div className='flex items-center'>
-            <Link href={"/"} className='relative flex justify-center items-center size-[60px] border rounded-[100%] overflow-hidden'>
+            <div className='relative flex justify-center items-center size-[60px] border rounded-[100%] overflow-hidden'>
             {
                 profileImg && <Image fill src={profileImg} alt={`프로필 이미지`} sizes="auto" loading="eager" className='object-cover' />
             }
-            </Link>
+            </div>
             <dl className='ml-[15px] select-none [&>dd]:inline-block [&>dd]:text-[0.9rem]'>
                 <dt className='flex items-center mb-[10px] text-[1.1rem] [&>svg]:mr-[10px]'>
                     { type === "naver" && <NaverLogo/> }

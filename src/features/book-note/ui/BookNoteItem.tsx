@@ -1,15 +1,18 @@
 "use client"
 
-import { Trash2, NotebookPen } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useRef, useState } from 'react';
 
+import { Trash2, NotebookPen } from 'lucide-react';
+
 import TextareaAutosize from "react-textarea-autosize";
+
+import { useLoadingStore } from '@/shared/store/useLoadingStore';
 
 import { Confirm } from '@/shared/ui/Confirm';
 
 import { API_DELETE_MY_BOOK_NOTE, API_UPDATE_MY_BOOK_NOTE } from '@/entities/book-note/api/booknote';
 import { DateFormat } from '@/shared/util/dateFormat';
-import { useSession } from 'next-auth/react';
 
 interface BOOK_NOTE_ITEM {
     item : BOOK_NOTE_MODEL,
@@ -26,6 +29,8 @@ export const BookNoteItem = ({ item, RefetchCallback } : BOOK_NOTE_ITEM) => {
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
+
     function EditSubmitCallback() {
         if(!textareaRef["current"]) return
 
@@ -33,9 +38,11 @@ export const BookNoteItem = ({ item, RefetchCallback } : BOOK_NOTE_ITEM) => {
 
         if(item["noteContents"] === textarea.value) return
 
+        SetLoadingStatus("booknote-update");
+
         API_UPDATE_MY_BOOK_NOTE(item["userId"] as string ,item["_id"].toString(), textarea.value)
         .then(() => {
-            RefetchCallback?.()
+            RefetchCallback?.();
         })
     }
 
@@ -57,8 +64,10 @@ export const BookNoteItem = ({ item, RefetchCallback } : BOOK_NOTE_ITEM) => {
     }
 
     function DeleteSubmitCallback() {
+        SetLoadingStatus("booknote-delete");
+
         API_DELETE_MY_BOOK_NOTE(item["userId"] as string, deleteId)
-        .then(async () => {
+        .then(() => {
 
             const newBookNoteLength = (session?.user.booknote??0) - 1;
 

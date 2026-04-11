@@ -4,11 +4,13 @@ import Image from "next/image"
 
 import { useParams, useRouter } from "next/navigation";
 
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useEffect } from "react";
 
 import { X } from 'lucide-react';
 
 import { useBookInfoHook } from "@/entities/book/hooks/useBookInfoHook";
+
+import { useLoadingStore } from "@/shared/store/useLoadingStore";
 
 import { BtnRegister } from "@/features/register-book/ui/BtnRegister";
 
@@ -25,8 +27,11 @@ export const BookInfoView = ({ status } : BOOK_INFO_VIEW) => {
     const navigation = useRouter();
 
     function NaviCallback() {
+        SetLoadingStatus("route");
         window.history.length > 1 ? navigation.back() : navigation.push("/");
     }
+
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
 
     useLayoutEffect(() => {
         document.body.style.overflow = "hidden";
@@ -34,6 +39,12 @@ export const BookInfoView = ({ status } : BOOK_INFO_VIEW) => {
         return () => {
             document.body.style.overflow = "";
         }
+    },[]);
+
+    useEffect(() => {
+        SetLoadingStatus("");
+
+        return () => SetLoadingStatus("");
     },[])
 
     if(!data) return <></>

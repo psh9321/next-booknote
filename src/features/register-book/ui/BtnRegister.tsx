@@ -11,6 +11,7 @@ import { useIndexedDBHook } from '@/shared/hooks/useIndexedDB';
 
 import { Confirm } from '@/shared/ui/Confirm';
 import { useRouter } from 'next/navigation';
+import { useLoadingStore } from '@/shared/store/useLoadingStore';
 
 interface BTN_ADD_BOOK {
     item : ALADIN.ALADIN_ITEM,
@@ -31,6 +32,8 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
 
     const { BookAdd, GetTargetBookStatus, BookUpdate, AfterLoginBookDelete, BeforeLoginBookDelete } = useIndexedDBHook();
 
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
+
     function GetBookItemModel(type : READING_STATUS) : Partial<BOOK_MODEL> {
         return {
             bookTitle : item["title"],
@@ -45,66 +48,85 @@ export const BtnRegister = ({ item, status } : BTN_ADD_BOOK) => {
     }
 
     async function RegisterCallback(e : React.UIEvent<HTMLButtonElement>) {
-        const self = e.currentTarget;
+        try {
+            const self = e.currentTarget;
 
-        const type  = self.dataset.readType as READING_STATUS;
+            const type  = self.dataset.readType as READING_STATUS;
 
-        const params = GetBookItemModel(type);
+            const params = GetBookItemModel(type);
 
-        /** 등록한 상태 */
-        if(currentStatus) {
+            SetLoadingStatus("book-register");
 
-            await BookUpdate(params, type, session?.user.id);
+            /** 등록한 상태 */
+            if(currentStatus) {
 
-            /** 로그인 */
-            if(isLogin === "authenticated") await API_REGISTER_BOOK_UPDATE(item["isbn"], type );
-        }
-        else {
-            params["createAt"] = new Date();
-            await BookAdd(params, item["title"], session?.user.id);
+                await BookUpdate(params, type, session?.user.id);
 
-            /** 로그인 */
-            if(isLogin === "authenticated") {
-                await API_REGISTER_BOOK(params);
-
-                update({
-                    user : {
-                        book : (session?.user.book??0) + 1
-                    }
-                })
+                /** 로그인 */
+                if(isLogin === "authenticated") await API_REGISTER_BOOK_UPDATE(item["isbn"], type );
             }
-        }   
+            else {
+                params["createAt"] = new Date();
+                await BookAdd(params, item["title"], session?.user.id);
 
-        SetIsMenu(false);
-        SetCurrentStatus(type);
+                /** 로그인 */
+                if(isLogin === "authenticated") {
+                    await API_REGISTER_BOOK(params);
+
+                    update({
+                        user : {
+                            book : (session?.user.book??0) + 1
+                        }
+                    })
+                }
+            }   
+
+            SetIsMenu(false);
+            SetCurrentStatus(type);
+            SetLoadingStatus("");
+        }
+        catch(err) {
+            console.log("register error",err);
+            alert("알수없는 에러")   
+            SetLoadingStatus("");
+        }
     }
 
     async function RegisterDeleteCallback() {
+        try {
 
-        if(isLogin === "authenticated") {
-            
-            await API_REGISTER_BOOK_DELETE(item["isbn"]);
-            await AfterLoginBookDelete(item["title"], session?.user.id);
+            SetLoadingStatus("book-register");
 
-            const newBookLength = (session?.user.book??0) - 1;
+            if(isLogin === "authenticated") {
+                
+                await API_REGISTER_BOOK_DELETE(item["isbn"]);
+                await AfterLoginBookDelete(item["title"], session?.user.id);
+
+                const newBookLength = (session?.user.book??0) - 1;
+
+                update({
+                    user : {
+                        book : newBookLength < 0 ? 0 : newBookLength 
+                    }
+                });
+
+                router.refresh();
+                            
+            }
+            else {
+                await BeforeLoginBookDelete(item["title"])
+            }
 
             SetIsDelete(false);
-
-            update({
-                user : {
-                    book : newBookLength < 0 ? 0 : newBookLength 
-                }
-            });
-
-            router.refresh();
-                        
+            SetIsMenu(false);
+            SetCurrentStatus("");
+            SetLoadingStatus("");
         }
-        else {
-            await BeforeLoginBookDelete(item["title"])
+        catch(err) {
+           console.log("delete error",err);
+            alert("도서 삭제 알수없는 에러")   
+            SetLoadingStatus("");
         }
-
-        SetIsMenu(false);
-        SetCurrentStatus("");
     }
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useSearchStore } from "@/features/search-book/model/useSearchStore";
+import { useSearchStore } from "@/features/search-book/store/useSearchStore";
 
 import { BestSellerList } from "@/features/best-seller/ui/DefaultList"
 import { SearchResult } from "@/features/search-book/ui/SearchResult";

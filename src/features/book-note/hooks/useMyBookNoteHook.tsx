@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { API_GET_MY_BOOK_NOTE } from "@/entities/book-note/api/booknote";
 
 export const useMyBookNoteHook = (userId : string, bookcode: string) => {
-    const { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+    const { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage, refetch, isRefetching } = useInfiniteQuery({
         queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE, userId, bookcode],
         queryFn : async ({pageParam}) => {
             const result = await API_GET_MY_BOOK_NOTE(userId, bookcode, Number(pageParam??0));
@@ -20,5 +20,5 @@ export const useMyBookNoteHook = (userId : string, bookcode: string) => {
             return undefined
         }
     });
-    return { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage, refetch }
+    return { data, isLoading, isFetching, isError, isSuccess, fetchNextPage, hasNextPage, refetch, isRefetching }
 }

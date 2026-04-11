@@ -12,6 +12,7 @@ import { useMyBookHook } from "../hooks/useMyBookHook"
 import { EmptyItem } from "@/shared/ui/EmptyItem";
 
 import { emptyContents } from "../util/getEmptyContents";
+import { useLoadingStore } from "@/shared/store/useLoadingStore";
 
 interface MY_BOOK_LIST {
     status : READING_STATUS,
@@ -21,6 +22,8 @@ interface MY_BOOK_LIST {
 export const AfterLoginMyBookList = ({ status } : MY_BOOK_LIST) => {
 
     const session = useSession();
+
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
 
     const { data, isFetching, fetchNextPage, hasNextPage } = useMyBookHook(session.data?.user.id!, status);
 
@@ -32,16 +35,20 @@ export const AfterLoginMyBookList = ({ status } : MY_BOOK_LIST) => {
 
     useEffect(() => {
         /** 로그인 */
-        if(session.status === "authenticated") {
-            if(isEmpty) return;
-            if(isFetching) return
-            if(!hasNextPage) return;
-            if(!isView) return;
+        if(session.status !== "authenticated") return
+        if(isEmpty) return;
+        if(isFetching) return
+        if(!hasNextPage) return;
+        if(!isView) return;
 
-            fetchNextPage();
-        }
+        fetchNextPage();
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[isView]);
+
+    useEffect(() => {
+        SetLoadingStatus(isFetching ? "book-fetch" : "");
+    },[isFetching, SetLoadingStatus])
 
     return (
         <>

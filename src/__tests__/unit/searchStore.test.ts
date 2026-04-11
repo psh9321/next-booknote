@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach } from "vitest";
-import { useSearchStore } from "@/features/search-book/model/useSearchStore";
+import { useSearchStore } from "@/features/search-book/store/useSearchStore";
 
 describe("useSearchStore", () => {
     beforeEach(() => {

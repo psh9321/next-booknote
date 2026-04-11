@@ -1,11 +1,17 @@
 "use client"
 
-import { useSearchBookHook } from "../hooks/useSearchBookHook";
-import { useSearchStore } from "../model/useSearchStore";
 import Link from "next/link";
 import Image from "next/image";
-import { useInterSectionObserver } from "@/shared/hooks/useInterSectionObserver";
+
 import { useEffect } from "react";
+
+import { useSearchBookHook } from "../hooks/useSearchBookHook";
+import { useInterSectionObserver } from "@/shared/hooks/useInterSectionObserver";
+
+import { useSearchStore } from "../store/useSearchStore";
+import { useLoadingStore } from "@/shared/store/useLoadingStore";
+
+import { BookInfoLink } from "@/shared/ui/BookInfoLink";
 
 export const SearchResult = () => {
 
@@ -17,8 +23,11 @@ export const SearchResult = () => {
         threshold : 0
     });
 
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
+
     const isEmpty = (data?.pages as CLIENT_API.SEARCH_RESPONSE_DATA[])[0]?.total <= 0;
 
+    
     useEffect(() => {
         if(!isView) return;
         if(isLoading) return;
@@ -44,22 +53,20 @@ export const SearchResult = () => {
             data?.pages.map(page => {
                 if(!page) return
 
-                return page?.["list"]?.map((el, i) => {
-                    return (
-                        <li key={`${JSON.stringify(page)}-${i}`}>
-                            <Link href={`/book/${el["bookCode"]}`} className="flex justify-between">
-                                <div className="relative w-[120px] h-[170px]">
-                                    <Image fill sizes="auto" src={el["bookCover"]} alt={`${el["bookTitle"]} 커버 이미지`} loading="eager" className="object-cover rounded-[10px]"/>
-                                </div>
-                                <dl className="w-[calc(100%-150px)] mt-[12px] [&>dd]:leading-[1.8] [&>dd]:text-[0.8rem] [&>dd]:truncate">
-                                    <dt className="mb-[15px] line-clamp-2">{el["bookTitle"]}</dt>
-                                    <dd>{el["bookAuther"]}</dd>
-                                    <dd>{el["bookPublisher"]}</dd>
-                                </dl>
-                            </Link>
-                        </li>
-                    )
-                })
+                return page?.["list"]?.map((el, i) => 
+                    <li key={`${JSON.stringify(page)}-${i}`}>
+                        <BookInfoLink className="flex justify-between" href={`/book/${el["bookCode"]}`}>
+                            <div className="relative w-[120px] h-[170px]">
+                                <Image fill sizes="auto" src={el["bookCover"]} alt={`${el["bookTitle"]} 커버 이미지`} loading="eager" className="object-cover rounded-[10px]"/>
+                            </div>
+                            <dl className="w-[calc(100%-150px)] mt-[12px] [&>dd]:leading-[1.8] [&>dd]:text-[0.8rem] [&>dd]:truncate">
+                                <dt className="mb-[15px] line-clamp-2">{el["bookTitle"]}</dt>
+                                <dd>{el["bookAuther"]}</dd>
+                                <dd>{el["bookPublisher"]}</dd>
+                            </dl>
+                        </BookInfoLink>
+                    </li>
+                )
 
             })
         }

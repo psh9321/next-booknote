@@ -6,6 +6,9 @@ import { useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import TextareaAutosize from "react-textarea-autosize";
+
+import { useLoadingStore } from "@/shared/store/useLoadingStore";
+
 import { API_ADD_MY_BOOK_NOTE } from "@/entities/book-note/api/booknote";
 import { Alert } from "@/shared/ui/Alert";
 
@@ -25,6 +28,8 @@ export const AddBookNote = ({ bookcode } : ADD_BOOK_NOTE) => {
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    const SetLoadingStatus = useLoadingStore(state => state.SetLoadingStatus);
+
     function SubmitCallback() {
 
         if(!textareaRef["current"]) return
@@ -35,6 +40,8 @@ export const AddBookNote = ({ bookcode } : ADD_BOOK_NOTE) => {
 
         if(!noteContents) return
 
+        SetLoadingStatus("booknote-add");
+
         const item = {
             userId : session?.user.id,
             bookTitle : bookInfo?.["title"],
@@ -44,18 +51,25 @@ export const AddBookNote = ({ bookcode } : ADD_BOOK_NOTE) => {
         }
 
         API_ADD_MY_BOOK_NOTE(item)
-        .then((rs) => {
+        .then(async (rs) => {
 
-            if(rs !== 200) return SetIsAlert(true);
+            if(rs !== 200) {
+                SetLoadingStatus("");
+                SetIsAlert(true);
+                return
+            }
 
             queryClient.refetchQueries({queryKey : [process.env.NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE, item["userId"], item["bookCode"]]});
             textarea.value = "";
 
-            update({
+            await update({
                 user : {
                     booknote :  (session?.user.booknote ?? 0) + 1
                 }
-            })
+            });
+
+            SetLoadingStatus("");
+
         })
     }
 
@@ -69,7 +83,7 @@ export const AddBookNote = ({ bookcode } : ADD_BOOK_NOTE) => {
     return (
         <>
             {
-                isAlert && <Alert title="책을 등록해주세요."  contents="'읽고싶은'<br/>'읽고 있는'<br/>'완독'<br/> 등록된 도서만 노트작성이 가능합니다." cancelCallback={() => SetIsAlert(false)}/>
+                isAlert && <Alert title="책을 등록해주세요."  contents="'읽고 싶은'<br/>'읽고 있는'<br/>'완독'<br/> 등록된 도서만 노트작성이 가능합니다." cancelCallback={() => SetIsAlert(false)}/>
             }
             
             <article>
