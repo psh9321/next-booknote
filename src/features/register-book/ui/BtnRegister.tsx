@@ -9,9 +9,7 @@ import { API_REGISTER_BOOK, API_REGISTER_BOOK_DELETE, API_REGISTER_BOOK_UPDATE }
 
 import { useIndexedDBHook } from '@/shared/hooks/useIndexedDB';
 
-import dynamic from "next/dynamic";
-
-const Confirm = dynamic(() => import('@/shared/ui/Confirm').then(m => m.Confirm));
+import { Confirm } from '@/shared/ui/Confirm';
 import { useRouter } from 'next/navigation';
 import { useLoadingStore } from '@/shared/store/useLoadingStore';
 
