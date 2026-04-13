@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { KakaoLogo, NaverLogo } from '@/svg/SSOLogo';
 
-export const BeforeLogin = () => {
+export const BeforeLoginComponent = () => {
 
     const arr = [
         { type : "naver", logo : <NaverLogo/> },

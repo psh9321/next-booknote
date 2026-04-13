@@ -3,19 +3,22 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
+import dynamic from 'next/dynamic';
+
+import { useSession } from 'next-auth/react';
 
 import { useState } from 'react';
 
-import { House, User, Undo2 } from 'lucide-react';
+import { House, User } from 'lucide-react';
 
 import { NavList } from '@/features/nav/ui/NavList';
-import { BeforeLogin } from '@/features/auth/ui/BeforeLogin';
+
+const FooterProfilePanel = dynamic(
+    () => import('./FooterProfilePanel').then(m => m.FooterProfilePanel),
+    { ssr: false }
+);
 
 export const Footer = () => {
-
-    const pathname = usePathname();
 
     const session = useSession();
 
@@ -29,31 +32,7 @@ export const Footer = () => {
         <footer className="fixed bottom-[0px] left-1/2 -translate-x-1/2 block w-full flex justify-center bg-[#0c1014] z-[3]">
             <div className='relative border-t border-t-[#2a2f32]'>
                 {
-                    isProfile &&
-                    <article className={`absolute flex justify-around leading-[2] items-center w-full h-full font-bold bg-[#0C1014] z-[2]`}>
-                        <h2 className="sr-only">내정보</h2>
-                        {
-                            isLogin ?
-                            <>
-                                <div>
-                                    <p className='mt-[5px]'>등록한 책 : {session.data?.user.book??0}</p>
-                                    <p>등록한 독서노트 : {session.data?.user.booknote??0}</p>
-                                </div>                            
-                                <button className='border-b' onClick={() => signOut() }>로그아웃</button>
-                            </>
-                            : 
-                            <>
-                            <p className='[@media(max-width:499px)]:text-[0.75rem]'>로그인 후 더 많은 서비스를 이용해보세요.</p>
-                            <div>
-                                <p className='mb-[5px] text-[0.9rem]'>로그인</p>
-                                 <BeforeLogin/>
-                            </div>
-                            </>
-
-                        }
-
-                        <button onClick={() => SetIsProfile(false)} className='absolute top-[10px] right-[10px]'><Undo2/></button>
-                    </article>
+                    isProfile && <FooterProfilePanel onClose={() => SetIsProfile(false)} />
                 }
 
                 <NavList>

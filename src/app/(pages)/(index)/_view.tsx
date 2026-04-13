@@ -8,7 +8,12 @@ import useMediaQuery from "@parksuhyun9321/use-media-query"
 
 import { Search } from "lucide-react"
 
-import { BestSellerCarouselList } from "@/features/best-seller/ui/CarouselList"
+import dynamic from "next/dynamic"
+
+const BestSellerCarouselList = dynamic(
+    () => import("@/features/best-seller/ui/CarouselList").then(m => m.BestSellerCarouselList),
+    { ssr: false }
+)
 import { LatestBookList } from "@/widgets/home/LatestBookList"
 import { MyOptionsBox } from "@/widgets/my-page/MyOptionsBox"
 import { LatestBookNoteList } from "@/widgets/home/LatestBookNoteList"

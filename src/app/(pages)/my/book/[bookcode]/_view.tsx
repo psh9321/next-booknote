@@ -1,11 +1,14 @@
 "use client"
 
+import dynamic from "next/dynamic";
+
 import { useEffect, useState } from "react";
 
 import useMediaQuery from "@parksuhyun9321/use-media-query";
 
-import { MyBookPagePC } from "@/widgets/my-page/book/pc";
-import { MyBookPageMobile } from "@/widgets/my-page/book/mobile";
+const MyBookPagePC = dynamic(import("@/widgets/my-page/book/pc").then(rs => ({default : rs.MyBookPagePC})));
+
+const MyBookPageMobile = dynamic(import("@/widgets/my-page/book/mobile").then(rs => ({default : rs.MyBookPageMobile})));
 
 interface MY_BOOK_TARGET_PAGE_VIEW {
     bookcode : string,

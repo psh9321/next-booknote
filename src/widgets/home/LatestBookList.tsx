@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link";
 import Image from "next/image";
 
 import { useLatestAddBookHook } from "@/entities/book/hooks/useLatestAddBookHook";
@@ -10,21 +9,6 @@ import { BookInfoLink } from "@/shared/ui/BookInfoLink";
 export const LatestBookList = () => {
 
     const { data, isError } = useLatestAddBookHook();
-
-    // const { GetLatestWishBook } = useIndexedDBHook();
-
-    // useEffect(() => {
-
-    //     if(session.status === "unauthenticated") {
-    //         if(window) {
-    //             GetLatestWishBook().then(SetData)
-    //         }
-    //     }
-    //     else {
-    //         SetData(wishBookData?.["pages"]?.[0]?.["list"].slice(0,2));
-    //     }
-
-    // },[session.status]);
 
     if(isError) return <></>
 

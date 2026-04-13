@@ -7,7 +7,9 @@ import { forwardRef, useState } from "react";
 
 import { CloudSync } from 'lucide-react';
 
-import { SyncList } from "@/features/syncList";
+import dynamic from "next/dynamic";
+
+const SyncList = dynamic(() => import("@/features/syncList").then(m => m.SyncList), { ssr: false });
 import { useSession } from "next-auth/react";
 
 interface NAV_LIST_ITEM {

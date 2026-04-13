@@ -1,12 +1,14 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-
-import { BeforeLogin } from "@/features/auth/ui/BeforeLogin"
-import { MyInfoBox } from "@/features/auth/ui/MyInfoBox";
-import { MyPageNavList } from "./ui/MyPageNavList";
-import useMediaQuery from "@parksuhyun9321/use-media-query";
 import { useEffect, useState } from "react";
+import useMediaQuery from "@parksuhyun9321/use-media-query";
+
+import { BeforeLogin } from "@/features/auth/ui/BeforeLogin";
+
+import { MyInfoBox } from "@/features/auth/ui/MyInfoBox";
+
+import { MyPageNavList } from "./ui/MyPageNavList";
 
 export const MyPageHeader = () => {
 
@@ -29,7 +31,7 @@ export const MyPageHeader = () => {
                     !effectiveIsResize &&
                     <div className="order-last w-[370px]">
                         {
-                        session.status === "unauthenticated" &&         <div className="flex justify-between items-center">
+                        session.status === "unauthenticated" && <div className="flex justify-between items-center">
                             <h3>로그인 후 더 많은 서비스를 이용해보세요.</h3>
                             <BeforeLogin/>
                         </div>

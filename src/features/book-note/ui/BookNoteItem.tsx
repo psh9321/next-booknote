@@ -9,7 +9,9 @@ import TextareaAutosize from "react-textarea-autosize";
 
 import { useLoadingStore } from '@/shared/store/useLoadingStore';
 
-import { Confirm } from '@/shared/ui/Confirm';
+import dynamic from "next/dynamic";
+
+const Confirm = dynamic(() => import('@/shared/ui/Confirm').then(m => m.Confirm));
 
 import { API_DELETE_MY_BOOK_NOTE, API_UPDATE_MY_BOOK_NOTE } from '@/entities/book-note/api/booknote';
 import { DateFormat } from '@/shared/util/dateFormat';
