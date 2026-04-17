@@ -1,13 +1,12 @@
 "use client"
 
-import Link from 'next/link';
 import Image from 'next/image';
 
 import { useSession, signOut } from 'next-auth/react';
 
 import { KakaoLogo, NaverLogo } from '@/svg/SSOLogo';
 
-export const MyInfoBox = () => {
+export const MyInfoBoxComponent = () => {
 
     const session = useSession();
 

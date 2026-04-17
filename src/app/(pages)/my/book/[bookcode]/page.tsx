@@ -1,12 +1,11 @@
-export const dynamic = 'force-dynamic';
-
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-import MyBookPageView from "./_view"
 import { GetSessionId } from "@/shared/lib/getSessionId";
 import { PrefetchBookInfo } from "@/entities/book/api/prefetch.book.info";
 import { API_CHECK_REGISTER_BOOK } from "@/entities/book/api/book";
 import { PrefetchMyBookNote } from "@/entities/book-note/api/prefetch.my.book.note";
+
+import MyBookPageView from "./_view"
 
 const MyBookPageServer = async ({ params } : BOOK_INFO_PAGE_PARAMS) => {
     

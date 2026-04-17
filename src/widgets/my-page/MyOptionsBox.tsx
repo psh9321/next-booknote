@@ -1,14 +1,10 @@
 "use client"
 
-import dynamic from 'next/dynamic';
-
 import { useSession } from 'next-auth/react';
 
 import { NavList } from '@/features/nav/ui/NavList';
-
-const BeforeLogin = dynamic(import("@/features/auth/ui/BeforeLogin").then(rs => ({default:rs.BeforeLogin})));
-
-const MyInfoBox = dynamic(import("@/features/auth/ui/MyInfoBox").then(rs => ({default:rs.MyInfoBox})));
+import { BeforeLogin } from '@/features/auth/ui/BeforeLogin';
+import { MyInfoBox } from '@/features/auth/ui/MyInfoBox';
 
 export const MyOptionsBox = () => {
 

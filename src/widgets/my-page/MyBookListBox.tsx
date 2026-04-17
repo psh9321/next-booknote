@@ -4,9 +4,9 @@ import dynamic from "next/dynamic"
 
 import { useSession } from "next-auth/react"
 
-const BeforeLoginMyBookList = dynamic(() => import("@/features/my-book/ui/BeforLoginMyBookList").then(rs => ({ default : rs.BeforeLoginMyBookList })))
+const BeforeLoginMyBookList = dynamic(() => import("@/features/my-book/ui/BeforLoginMyBookList").then(rs => ({ default : rs.BeforeLoginMyBookList })), {ssr : false})
 
-const AfterLoginMyBookList = dynamic(() => import("@/features/my-book/ui/AfterLoginMyBookList").then(rs => ({ default : rs.AfterLoginMyBookList })))
+const AfterLoginMyBookList = dynamic(() => import("@/features/my-book/ui/AfterLoginMyBookList").then(rs => ({ default : rs.AfterLoginMyBookList })), {ssr : false})
 
 interface MY_BOOK_LIST_BOX {
     status : READING_STATUS

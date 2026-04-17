@@ -11,7 +11,7 @@ import { useLoadingStore } from '@/shared/store/useLoadingStore';
 
 import dynamic from "next/dynamic";
 
-const Confirm = dynamic(() => import('@/shared/ui/Confirm').then(m => m.Confirm));
+const Confirm = dynamic(() => import('@/shared/ui/Confirm').then(m => m.Confirm), {ssr : false});
 
 import { API_DELETE_MY_BOOK_NOTE, API_UPDATE_MY_BOOK_NOTE } from '@/entities/book-note/api/booknote';
 import { DateFormat } from '@/shared/util/dateFormat';
