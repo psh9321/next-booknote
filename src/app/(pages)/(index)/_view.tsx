@@ -35,7 +35,7 @@ const IndexPageView = () => {
     return (
         <div className={`block w-[1000px] mx-auto ${effectiveIsResize ? "pb-[120px]" : "pb-[20px]"} [@media(max-width:1000px)]:w-[calc(100%-40px)]`}>
             <section className="w-full mt-[20px]">
-                <h3 className="inline-block mb-[20px] font-[700] text-[1.2rem] select-none">베스트 셀러</h3>
+                <h3 className="inline-block mb-[20px] font-[700] text-[1.2rem] select-none">베스트 셀러22</h3>
                 <div className="py-[40px] px-[20px] bg-[#2A2F32] rounded-[10px]">
                     <BestSellerCarouselList/>
                 </div>
