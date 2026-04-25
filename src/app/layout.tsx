@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
+import { DIST_VER } from "version"
+
 import "./style.css";
+
 import QueryProvider from "@/providers/QueryProvider";
 import SessionProvider from "@/providers/SessionProvider";
 import { LoadingView } from "@/shared/ui/loadingView";
@@ -43,6 +46,7 @@ const RootLayout = ({ children } : LAYOUT_CHILD) => {
                   </QueryProvider>
             </SessionProvider>
             <LoadingView/>
+            <h2 className="sr-only">{DIST_VER}</h2>
         </body>
         </html>
     )
