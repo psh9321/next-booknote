@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "NEXT_DISABLE_TURBOPACK=1 NODE_OPTIONS='--max-old-space-size=1536' next build",
-    "start": "pm2 start ecosystem.config.js --env production",
+    "prod" : "next start -p 3001",
+    "start" : "pm2 start ecosystem.config.js --env production",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
