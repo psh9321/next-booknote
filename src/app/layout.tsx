@@ -30,7 +30,7 @@ export const metadata: Metadata = {
         follow : true,
     },
 };
-
+ 
 const RootLayout = ({ children } : LAYOUT_CHILD) => {
 
     return (
