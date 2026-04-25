@@ -14,7 +14,7 @@ export const metadata: Metadata = {
         template: "%s | 독서기록 플랫폼",
     },
     description: "전국 전시 정보를 한눈에 확인하세요",
-    keywords : ["독서", "읽고싶은", "읽는중", "완독 도서", "book", "book log", "book log"],
+    keywords : ["북노트", "독서", "읽고싶은", "읽는중", "완독 도서", "book", "book log", "book log"],
     appLinks : {
         web : {
         url : "https://booknote.psh9321-portfolio.p-e.kr",

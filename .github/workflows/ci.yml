@@ -74,7 +74,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             cd ${{ secrets.EC2_APP_DIR }}
-            sudo git pull origin main
+            sudo git pull origin master
             sudo pnpm install --frozen-lockfile
             sudo pnpm run build
             pnpm start
