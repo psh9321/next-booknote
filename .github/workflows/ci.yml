@@ -46,26 +46,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: DIST_VER 버전 업
-        run: |
-          node -e "
-            const fs = require('fs');
-            const v = JSON.parse(fs.readFileSync('version.json', 'utf8'));
-            const parts = v.DIST_VER.split('.');
-            parts[3] = String(Number(parts[3]) + 1);
-            v.DIST_VER = parts.join('.');
-            fs.writeFileSync('version.json', JSON.stringify(v, null, '\t') + '\n');
-            console.log('DIST_VER:', v.DIST_VER);
-          "
-
-      - name: 버전 커밋 & 푸시
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add version.json
-          git commit -m "chore: bump DIST_VER [skip ci]"
-          git push
-
       - name: SSH로 EC2 접속 후 배포
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -74,7 +54,18 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             cd ${{ secrets.EC2_APP_DIR }}
-            sudo git pull origin master
+            CURRENT_VER=$(node -e "console.log(require('./version.json').DIST_VER)")
+            sudo git fetch origin master
+            sudo git merge -X ours origin/master
+            node -e "
+              const fs = require('fs');
+              const v = JSON.parse(fs.readFileSync('version.json', 'utf8'));
+              const parts = '$CURRENT_VER'.split('.');
+              parts[3] = String(Number(parts[3]) + 1);
+              v.DIST_VER = parts.join('.');
+              fs.writeFileSync('version.json', JSON.stringify(v, null, '\t') + '\n');
+              console.log('DIST_VER:', v.DIST_VER);
+            "
             sudo pnpm install --frozen-lockfile
             sudo pnpm run build
             pnpm start
