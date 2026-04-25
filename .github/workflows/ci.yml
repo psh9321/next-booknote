@@ -40,26 +40,6 @@ jobs:
     needs: test
     if: github.event_name == 'push'
 
-    env:
-      NEXT_PUBLIC_BACKEND_API_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_API_URL }}
-      NEXT_PUBLIC_QUERY_KEY_BOOK_INFO: ${{ secrets.NEXT_PUBLIC_QUERY_KEY_BOOK_INFO }}
-      NEXT_PUBLIC_QUERY_KEY_BEST_SELLER: ${{ secrets.NEXT_PUBLIC_QUERY_KEY_BEST_SELLER }}
-      NEXT_PUBLIC_QUERY_KEY_LATEST_ADD_BOOK: ${{ secrets.NEXT_PUBLIC_QUERY_KEY_LATEST_ADD_BOOK }}
-      NEXT_PUBLIC_QUERY_KEY_MY_BOOK: ${{ secrets.NEXT_PUBLIC_QUERY_KEY_MY_BOOK }}
-      NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE: ${{ secrets.NEXT_PUBLIC_QUERY_KEY_MY_BOOK_NOTE }}
-      NEXT_PUBLIC_QUERY_KEY_LATEST_BOOK_NOTE: ${{ secrets.NEXT_PUBLIC_QUERY_KEY_LATEST_BOOK_NOTE }}
-      NEXT_PUBLIC_INDEXED_DB_NAME: ${{ secrets.NEXT_PUBLIC_INDEXED_DB_NAME }}
-      NEXT_PUBLIC_INDEXED_DB_VERSION: ${{ secrets.NEXT_PUBLIC_INDEXED_DB_VERSION }}
-      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL || 'http://localhost:3000' }}
-      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-      DB_CONNECT_URL: ${{ secrets.DB_CONNECT_URL }}
-      ALADIN_API_URL: ${{ secrets.ALADIN_API_URL || 'http://localhost:3000' }}
-      ALADIN_API_SECRET_KEY: ${{ secrets.ALADIN_API_SECRET_KEY }}
-      NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-      NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
-      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
