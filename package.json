@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "NEXT_DISABLE_TURBOPACK=1 NODE_OPTIONS='--max-old-space-size=1536' next build",
-    "start": "next start -p 3001",
+    "start": "pm2 start ecosystem.config.js",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -21,6 +21,7 @@
     "mongoose": "^9.3.3",
     "next": "16.2.2",
     "next-auth": "4.24.13",
+    "pm2": "^6.0.14",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-textarea-autosize": "^8.5.9",
