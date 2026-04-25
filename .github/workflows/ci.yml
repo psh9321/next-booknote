@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: Test
+    name: 테스트 실행
     runs-on: ubuntu-latest
 
     steps:
@@ -34,10 +34,11 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-  build:
-    name: Build
+  deploy:
+    name: EC2 배포
     runs-on: ubuntu-latest
     needs: test
+    if: github.event_name == 'push'
 
     env:
       NEXT_PUBLIC_BACKEND_API_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_API_URL }}
@@ -60,22 +61,42 @@ jobs:
       KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
         with:
-          version: 9
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: DIST_VER 버전 업
+        run: |
+          node -e "
+            const fs = require('fs');
+            const v = JSON.parse(fs.readFileSync('version.json', 'utf8'));
+            const parts = v.DIST_VER.split('.');
+            parts[3] = String(Number(parts[3]) + 1);
+            v.DIST_VER = parts.join('.');
+            fs.writeFileSync('version.json', JSON.stringify(v, null, '\t') + '\n');
+            console.log('DIST_VER:', v.DIST_VER);
+          "
+
+      - name: 버전 커밋 & 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json
+          git commit -m "chore: bump DIST_VER [skip ci]"
+          git push
+
+      - name: SSH로 EC2 접속 후 배포
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          node-version: 20
-          cache: pnpm
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd ${{ secrets.EC2_APP_DIR }}
+            sudo git pull origin main
+            sudo pnpm install --frozen-lockfile
+            sudo pnpm run build
+            pnpm start
+            pnpm reload
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
