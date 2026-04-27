@@ -1,7 +1,7 @@
 # Booknote
 
 ## 보고싶은, 읽고싶은 책 을 검색하고 독서노트를 작성 할수있는 사이트 입니다.
-https://next-booknote.vercel.app
+https://booknote.psh9321-portfolio.p-e.kr/
 
 ## 개발 환경
  - node@24.12.0
